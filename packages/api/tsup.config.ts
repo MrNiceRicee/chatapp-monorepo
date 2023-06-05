@@ -8,4 +8,5 @@ export default defineConfig((opts) => ({
   dts: true,
   // sourcemap: true,
   splitting: true,
+  treeshake: true,
 }));

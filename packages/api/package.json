@@ -4,16 +4,19 @@
   "description": "",
   "main": "./src/index.ts",
   "scripts": {
+    "dev": "tsx src/index.ts",
     "build": "tsup src/index.ts",
     "lint": "eslint src --ext ts --report-unused-disable-directives --max-warnings 0",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf dist && rm -rf node_modules",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "start": "node dist/index.mjs"
   },
   "keywords": [],
   "author": "Joshua Santos",
   "license": "ISC",
   "dependencies": {
+    "@rice/env": "workspace:*",
     "@trpc/server": "^10.29.1",
     "fastify": "^4.17.0",
     "superjson": "^1.12.3",
@@ -21,6 +24,7 @@
   },
   "devDependencies": {
     "tsup": "^6.7.0",
+    "tsx": "^3.12.7",
     "typescript": "^5.1.3"
   }
 }
