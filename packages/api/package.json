@@ -16,7 +16,7 @@
   "author": "Joshua Santos",
   "license": "ISC",
   "dependencies": {
-    "@rice/env": "workspace:*",
+    "@rice/env": "0.0.1",
     "@trpc/server": "^10.29.1",
     "fastify": "^4.17.0",
     "superjson": "^1.12.3",

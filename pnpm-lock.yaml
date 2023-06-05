@@ -85,7 +85,7 @@ importers:
   packages/api:
     dependencies:
       '@rice/env':
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../env
       '@trpc/server':
         specifier: ^10.29.1

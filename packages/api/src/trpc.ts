@@ -16,14 +16,13 @@
  */
 import { type CreateFastifyContextOptions } from '@trpc/server/adapters/fastify';
 import { serverEnv } from '@rice/env';
-import { initTRPC } from '@trpc/server';
+import { type inferAsyncReturnType, initTRPC } from '@trpc/server';
 import superjson from 'superjson';
 import { ZodError } from 'zod';
 
 /** Replace this with an object if you want to pass things to `createContextInner`. */
 type CreateContextOptions = {
   req: CreateFastifyContextOptions['req'];
-  res: CreateFastifyContextOptions['res'];
 };
 
 /**
@@ -39,7 +38,6 @@ type CreateContextOptions = {
 const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     req: opts.req,
-    res: opts.res,
     env: serverEnv(),
   };
 };
@@ -51,10 +49,13 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  * @see https://trpc.io/docs/context
  */
 export const createTRPCContext = (opts: CreateFastifyContextOptions) => {
-  const { req, res } = opts;
+  const { req } = opts;
 
-  return createInnerTRPCContext({ req, res });
+  return createInnerTRPCContext({ req });
 };
+
+export type TRPCContext = inferAsyncReturnType<typeof createTRPCContext>;
+export type TRPCProtectedContext = NonNullable<TRPCContext>;
 
 /**
  * 2. INITIALIZATION

@@ -5,7 +5,7 @@ export default defineConfig((opts) => ({
   format: ["esm"],
   clean: !opts.watch,
   minify: !opts.watch,
-  dts: true,
+  // dts: true,
   // sourcemap: true,
   splitting: true,
   treeshake: true,
