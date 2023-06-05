@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "tsc --noEmit && eslint src --ext ts --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint src --ext ts --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "clean": "rm -rf dist && rm -rf node_modules"
+    "clean": "rm -rf dist && rm -rf node_modules",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "react": "^18.2.0",
