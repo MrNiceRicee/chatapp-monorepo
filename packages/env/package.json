@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsup src/index.ts",
     "lint": "eslint src --ext ts --report-unused-disable-directives --max-warnings 0",
-    "test": "vitest "
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",

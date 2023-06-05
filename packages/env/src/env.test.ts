@@ -11,4 +11,10 @@ describe('serverEnv test', () => {
       expect(error).toBeInstanceOf(Error);
     }
   });
+
+  test('success', () => {
+    const env = serverEnv({ SERVER_PORT: '3000', SERVER_HOST: 'localhost' });
+
+    expect(env).toEqual({ SERVER_PORT: '3000', SERVER_HOST: 'localhost' });
+  });
 });
