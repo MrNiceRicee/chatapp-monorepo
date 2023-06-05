@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "description": "",
   "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup src/index.ts",
     "lint": "eslint src --ext ts --report-unused-disable-directives --max-warnings 0",

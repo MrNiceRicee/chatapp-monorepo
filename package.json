@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
+  "packageManager": "pnpm@8.6.0",
   "scripts": {
     "build": "turbo --filter \"./packages/*\" build",
     "dev": "dotenv -- turbo dev",

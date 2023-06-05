@@ -1,7 +1,7 @@
 import { type ZodError, z } from 'zod';
 
 const serverSchema = z.object({
-  SERVER_PORT: z.coerce.number().min(1).max(65535),
+  PORT: z.coerce.number().min(1).max(65535),
   SERVER_HOST: z.string(),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('production'),
 });

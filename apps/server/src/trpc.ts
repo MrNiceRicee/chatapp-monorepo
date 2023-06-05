@@ -14,7 +14,7 @@
  *
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
-import { type CreateFastifyContextOptions } from '@trpc/server/adapters/fastify';
+import { CreateFastifyContextOptions } from '@trpc/server/adapters/fastify';
 import { serverEnv } from '@rice/env';
 import { type inferAsyncReturnType, initTRPC } from '@trpc/server';
 import superjson from 'superjson';
@@ -49,9 +49,7 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  * @see https://trpc.io/docs/context
  */
 export const createTRPCContext = (opts: CreateFastifyContextOptions) => {
-  const { req } = opts;
-
-  return createInnerTRPCContext({ req });
+  return createInnerTRPCContext({ req: opts.req });
 };
 
 export type TRPCContext = inferAsyncReturnType<typeof createTRPCContext>;
