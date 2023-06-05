@@ -1,21 +1,18 @@
 import { type ZodError, z } from 'zod';
 
 const serverSchema = z.object({
-  SERVER_PORT: z.string(),
+  SERVER_PORT: z.coerce.number().min(1).max(65535),
   SERVER_HOST: z.string(),
+  NODE_ENV: z.enum(['development', 'production', 'test']).default('production'),
 });
 
 function validationError(error: ZodError) {
-  console.error(
-    // X emoji
-    '❌ Invalid environment variables:',
-    error.flatten().fieldErrors,
-  );
+  console.error('❌ Invalid environment variables:', error.flatten().fieldErrors);
   throw new Error('Invalid environment variables');
 }
 
-export function serverEnv(
-  envProcess?: NodeJS.ProcessEnv | Record<string, unknown>,
+export function serverEnv<T>(
+  envProcess?: T extends NodeJS.ProcessEnv ? T : z.infer<typeof serverSchema>,
 ): z.infer<typeof serverSchema> {
   const parse = serverSchema.safeParse(envProcess || process.env);
 

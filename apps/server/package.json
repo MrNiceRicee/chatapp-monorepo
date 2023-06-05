@@ -1,27 +1,31 @@
 {
-  "name": "@rice/api",
-  "version": "0.1.0",
+  "name": "server",
+  "version": "1.0.0",
   "description": "",
-  "main": "./src/index.ts",
+  "main": ".src/index.ts",
   "scripts": {
+    "dev": "dotenv -e ../../.env -- tsx src/index.ts",
     "build": "tsup src/index.ts",
     "lint": "eslint src --ext ts --report-unused-disable-directives --max-warnings 0",
     "clean": "rm -rf dist && rm -rf node_modules",
     "type-check": "tsc --noEmit"
   },
   "keywords": [],
-  "author": "Joshua Santos",
+  "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/cors": "^8.3.0",
+    "@rice/api": "^0.1.0",
     "@rice/env": "^0.1.0",
     "@trpc/server": "^10.29.1",
-    "fastify": "^4.17.0",
-    "superjson": "^1.12.3",
-    "zod": "^3.21.4"
+    "fastify": "^4.17.0"
   },
   "devDependencies": {
     "@types/node": "^20.2.5",
+    "dotenv-cli": "^7.2.1",
+    "pino-pretty": "^10.0.0",
     "tsup": "^6.7.0",
+    "tsx": "^3.12.7",
     "typescript": "^5.1.3"
   }
 }

@@ -26,5 +26,6 @@
       "outputs": [],
       "cache": true
     }
-  }
+  },
+  "globalDotEnv": [".env"]
 }
