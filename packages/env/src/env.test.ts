@@ -15,6 +15,6 @@ describe('serverEnv test', () => {
   test('success', () => {
     const env = serverEnv({ SERVER_PORT: '3000', SERVER_HOST: 'localhost' });
 
-    expect(env).toEqual({ SERVER_PORT: '3000', SERVER_HOST: 'localhost' });
+    expect(env).toEqual({ SERVER_PORT: 3000, SERVER_HOST: 'localhost', NODE_ENV: 'production' });
   });
 });
