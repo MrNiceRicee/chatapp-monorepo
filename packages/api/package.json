@@ -1,0 +1,25 @@
+{
+  "name": "@rice/api",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./src/index.ts",
+  "scripts": {
+    "build": "tsup src/index.ts",
+    "lint": "tsc --noEmit && eslint src --ext ts --report-unused-disable-directives --max-warnings 0",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf dist && rm -rf node_modules"
+  },
+  "keywords": [],
+  "author": "Joshua Santos",
+  "license": "ISC",
+  "dependencies": {
+    "@trpc/server": "^10.29.1",
+    "fastify": "^4.17.0",
+    "superjson": "^1.12.3",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "tsup": "^6.7.0",
+    "typescript": "^5.1.3"
+  }
+}
