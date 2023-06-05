@@ -15,8 +15,8 @@ function validationError(error: ZodError) {
   throw new Error('Invalid environment variables');
 }
 
-export function serverEnv<T>(
-  envProcess?: T extends NodeJS.ProcessEnv ? T : z.infer<typeof serverSchema>,
+export function serverEnv(
+  envProcess?: z.infer<typeof serverSchema> | Record<string, unknown>,
 ): z.infer<typeof serverSchema> {
   const parse = serverSchema.safeParse(envProcess || process.env);
 

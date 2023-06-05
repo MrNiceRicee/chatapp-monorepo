@@ -10,7 +10,8 @@
     "lint:fix": "turbo lint -- --fix && manypkg fix",
     "clean": "turbo clean && rm -rf node_modules",
     "test": "turbo test -- --run",
-    "type-check": "turbo type-check"
+    "type-check": "turbo type-check",
+    "start:server": "cd apps/server && npm run start"
   },
   "keywords": [],
   "author": "Joshua Santos",
