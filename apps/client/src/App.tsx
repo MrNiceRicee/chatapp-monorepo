@@ -1,30 +1,29 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import { trpc } from './api/trpc';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const test = trpc.health.status.useQuery();
+
+  const determineStatus = () => {
+    if (test.isInitialLoading) {
+      return 'Loading...';
+    }
+
+    if (test.error) {
+      return test.error.message;
+    }
+
+    return test.data;
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </>
+    <main className="w-full h-screen flex justify-center items-center">
+      <section>
+        <h1 className="text-4xl text-center">Hello World</h1>
+        <section className="text-center">
+          <p className="text-2xl">Status: {determineStatus()}</p>
+        </section>
+      </section>
+    </main>
   );
 }
 
