@@ -47,7 +47,7 @@ async function main() {
 
   try {
     await app.listen({
-      port: env.SERVER_PORT,
+      port: env.PORT,
       host: env.SERVER_HOST,
     });
   } catch (err) {
