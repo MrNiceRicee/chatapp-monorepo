@@ -28,7 +28,7 @@ export function serverEnv<T>(
 }
 
 export function clientEnv<T>(
-  envProcess?: T extends ImportMetaEnv ? T : z.infer<typeof clientSchema>,
+  envProcess?: T extends ImportMeta['env'] ? T : z.infer<typeof clientSchema>,
 ): z.infer<typeof clientSchema> {
   const parse = clientSchema.safeParse(envProcess || process.env);
 
