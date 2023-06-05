@@ -16,6 +16,9 @@
  */
 import { type CreateFastifyContextOptions } from '@trpc/server/adapters/fastify';
 import { serverEnv } from '@rice/env';
+import { initTRPC } from '@trpc/server';
+import superjson from 'superjson';
+import { ZodError } from 'zod';
 
 /** Replace this with an object if you want to pass things to `createContextInner`. */
 type CreateContextOptions = {
@@ -60,9 +63,6 @@ export const createTRPCContext = (opts: CreateFastifyContextOptions) => {
  * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
  * errors on the backend.
  */
-import { initTRPC } from '@trpc/server';
-import superjson from 'superjson';
-import { ZodError } from 'zod';
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
