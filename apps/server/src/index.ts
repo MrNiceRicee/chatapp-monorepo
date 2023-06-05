@@ -34,8 +34,7 @@ async function server() {
   });
 
   void app.register(fastifyTRPCPlugin, {
-    prefix: '/trpc',
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    prefix: '/api',
     trpcOptions: { router: appRouter, createContext: createTRPCContext },
   });
 

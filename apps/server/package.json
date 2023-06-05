@@ -4,7 +4,7 @@
   "description": "",
   "main": ".src/index.ts",
   "scripts": {
-    "dev": "dotenv && tsx src/index.ts --watch",
+    "dev": "dotenv -e ../../.env -- tsx src/index.ts",
     "build": "tsup src/index.ts",
     "lint": "eslint src --ext ts --report-unused-disable-directives --max-warnings 0",
     "clean": "rm -rf dist && rm -rf node_modules",
@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.2.5",
+    "dotenv-cli": "^7.2.1",
     "pino-pretty": "^10.0.0",
     "tsup": "^6.7.0",
     "tsx": "^3.12.7",

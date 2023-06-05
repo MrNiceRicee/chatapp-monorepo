@@ -1,4 +1,4 @@
-import { createTRPCRouter } from '~/trpc';
+import { createTRPCRouter } from './trpc';
 import { healthRouter } from './routers/health/healthRouter';
 
 /**
