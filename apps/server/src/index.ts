@@ -3,7 +3,7 @@ import cors from '@fastify/cors';
 import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';
 
 import { appRouter, createTRPCContext } from '@rice/api';
-import env from '~/config/env';
+import env from './config/env';
 
 const envToLogger = {
   development: {
