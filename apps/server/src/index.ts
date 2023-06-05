@@ -2,7 +2,8 @@ import fastify from 'fastify';
 import cors from '@fastify/cors';
 import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';
 
-import { appRouter, createTRPCContext } from '@rice/api';
+import { createTRPCContext } from './trpc';
+import { appRouter, type AppRouter } from './root';
 import env from './config/env';
 
 const envToLogger = {
@@ -56,3 +57,5 @@ async function main() {
 }
 
 void main();
+
+export type { AppRouter };
