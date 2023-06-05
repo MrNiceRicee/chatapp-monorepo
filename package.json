@@ -10,7 +10,7 @@
     "lint:fix": "turbo lint -- --fix && manypkg fix",
     "clean": "turbo clean && rm -rf node_modules",
     "test": "turbo test",
-    "typecheck": "turbo typecheck"
+    "type-check": "turbo type-check"
   },
   "keywords": [],
   "author": "Joshua Santos",

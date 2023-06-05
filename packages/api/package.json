@@ -5,9 +5,10 @@
   "main": "./src/index.ts",
   "scripts": {
     "build": "tsup src/index.ts",
-    "lint": "tsc --noEmit && eslint src --ext ts --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint src --ext ts --report-unused-disable-directives --max-warnings 0",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "clean": "rm -rf dist && rm -rf node_modules"
+    "clean": "rm -rf dist && rm -rf node_modules",
+    "type-check": "tsc --noEmit"
   },
   "keywords": [],
   "author": "Joshua Santos",
