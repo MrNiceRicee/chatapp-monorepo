@@ -14,10 +14,12 @@
           "name": "Frontend",
           "type": "fargate",
           "buildType": "nixpacks",
+          "basePath": "./apps/client",
           "cpu": 0.25,
           "memory": 0.5,
           "minInstances": 1,
           "maxInstances": 1,
+          "installCommand": "pnpm i",
           "buildCommand": "pnpm build",
           "startCommand": "pnpm start"
         }
