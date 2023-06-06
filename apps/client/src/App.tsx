@@ -36,7 +36,6 @@ function WebsocketTest() {
 
   api.chat.messages.useSubscription(undefined, {
     onData(data) {
-      // data is {random: number}
       const currentNumbers = model.data;
 
       if (currentNumbers.length > 10) {
