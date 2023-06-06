@@ -38,3 +38,6 @@ export function clientEnv(
 
   return parse.data;
 }
+
+export type ServerEnv = z.infer<typeof serverSchema>;
+export type ClientEnv = z.infer<typeof clientSchema>;
