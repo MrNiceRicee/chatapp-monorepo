@@ -1,7 +1,7 @@
-import { trpc } from './api/trpc';
+import { api } from './api/trpc';
 
 function App() {
-  const test = trpc.health.status.useQuery();
+  const test = api.health.status.useQuery();
 
   const determineStatus = () => {
     if (test.isInitialLoading) {
@@ -12,7 +12,7 @@ function App() {
       return test.error.message;
     }
 
-    return test.data;
+    return test.data ?? 'Unknown';
   };
 
   return (
