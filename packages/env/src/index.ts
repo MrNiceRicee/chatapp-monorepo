@@ -7,7 +7,7 @@ const serverSchema = z.object({
 });
 
 const clientSchema = z.object({
-  VITE_SERVER_URL: z.string().url(),
+  VITE_SERVER_URL: z.string().nonempty(),
 });
 
 function validationError(error: ZodError) {
