@@ -15,12 +15,9 @@ const wsEndpoint = () => {
   const isProd = !import.meta.env.DEV;
 
   if (url.match(/^https?:\/\//)) {
-    // replace http or https with ws or wss
     if (isProd) {
-      // url = url.replace(/^https?:\/\//, 'wss://');
       return url.replace(/^https?:\/\//, 'wss://');
     } else {
-      // url = url.replace(/^https?:\/\//, 'ws://');
       return url.replace(/^https?:\/\//, 'ws://');
     }
   }
