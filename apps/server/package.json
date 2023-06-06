@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@fastify/cors": "^8.3.0",
+    "@fastify/websocket": "^8.1.0",
     "@rice/env": "^0.1.0",
     "@trpc/server": "^10.29.1",
     "fastify": "^4.17.0",

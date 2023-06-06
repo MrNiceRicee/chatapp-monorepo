@@ -2,9 +2,9 @@ import fastify from 'fastify';
 import cors from '@fastify/cors';
 import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';
 
-import { createTRPCContext } from './trpc';
-import { appRouter, type AppRouter } from './root';
-import env from './config/env';
+import { createTRPCContext } from '~/trpc';
+import { appRouter, type AppRouter } from '~/root';
+import env from '~/config/env';
 
 const envToLogger = {
   development: {

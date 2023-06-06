@@ -1,5 +1,5 @@
-import { createTRPCRouter } from './trpc';
-import { healthRouter } from './routers/health/healthRouter';
+import { createTRPCRouter } from '~/trpc';
+import { healthRouter } from '~/routers/health/healthRouter';
 
 /**
  * This is the primary router for your server.
