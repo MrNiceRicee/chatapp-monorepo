@@ -11,11 +11,18 @@ import env from '../config/env';
 
 const queryClient = new QueryClient();
 const wsEndpoint = () => {
-  let url = env.VITE_SERVER_URL;
+  const url = env.VITE_SERVER_URL;
+  const isProd = !import.meta.env.DEV;
 
   if (url.match(/^https?:\/\//)) {
     // replace http or https with ws or wss
-    url = url.replace(/^https?:\/\//, 'ws://');
+    if (isProd) {
+      // url = url.replace(/^https?:\/\//, 'wss://');
+      return url.replace(/^https?:\/\//, 'wss://');
+    } else {
+      // url = url.replace(/^https?:\/\//, 'ws://');
+      return url.replace(/^https?:\/\//, 'ws://');
+    }
   }
 
   return url;
