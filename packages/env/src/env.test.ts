@@ -13,8 +13,19 @@ describe('serverEnv test', () => {
   });
 
   test('success', () => {
-    const env = serverEnv({ PORT: '3000', SERVER_HOST: 'localhost' });
+    const env = serverEnv({
+      PORT: '3000',
+      SERVER_HOST: 'localhost',
+      REDIS_URL: 'http://www.example.com',
+      REDIS_TOKEN_KEY: 'token',
+    });
 
-    expect(env).toEqual({ PORT: 3000, SERVER_HOST: 'localhost', NODE_ENV: 'production' });
+    expect(env).toEqual({
+      PORT: 3000,
+      SERVER_HOST: 'localhost',
+      NODE_ENV: 'production',
+      REDIS_URL: 'http://www.example.com',
+      REDIS_TOKEN_KEY: 'token',
+    });
   });
 });
