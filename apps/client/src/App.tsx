@@ -56,7 +56,7 @@ function PostMessage() {
           <input
             type="text"
             name="username"
-            className=" w-full rounded-md border p-2"
+            className="w-full rounded-md border p-2 shadow-inner shadow-stone-100 dark:text-zinc-900 dark:shadow-stone-400"
           />
         </fieldset>
         {addMessage.error?.data?.zodError?.fieldErrors?.username && (
@@ -73,7 +73,7 @@ function PostMessage() {
           <input
             type="text"
             name="message"
-            className="w-full rounded-md border p-2"
+            className="w-full rounded-md border p-2 shadow-inner shadow-stone-100 dark:text-zinc-900 dark:shadow-stone-400"
             ref={messageRef}
           />
         </fieldset>
