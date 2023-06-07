@@ -4,7 +4,7 @@ import { type Message } from '../types/types';
 
 const emitter = new EventEmitter();
 
-type GenericFunction<Args extends any[] = any[], Return = any> = (
+type GenericFunction<Args extends unknown[] = unknown[], Return = unknown> = (
   ...args: Args
 ) => Return;
 

@@ -41,7 +41,7 @@ function PostMessage() {
     <form onSubmit={onSubmit} className="space-y-2 pt-4 text-left flex flex-col">
       <div>
         <fieldset className="flex space-x-2 items-center">
-          <label htmlFor="message" className="basis-1/3 ">
+          <label htmlFor="message" className="basis-1/2 w-full">
             Username
           </label>
           <input
@@ -58,7 +58,7 @@ function PostMessage() {
       </div>
       <div>
         <fieldset className="flex space-x-2 items-center">
-          <label htmlFor="message" className="basis-1/3 ">
+          <label htmlFor="message" className="basis-1/2 w-full">
             Message
           </label>
           <input
@@ -164,7 +164,7 @@ function WebsocketTest() {
 function App() {
   return (
     <main className="w-full h-screen flex justify-center items-center">
-      <section className="max-w-xs">
+      <section className="max-w-sm">
         <h1 className="text-4xl text-center">Hello World</h1>
         <section className="text-center space-y-4 divide-y divide-stone-400">
           <HealthStatus />
