@@ -1,6 +1,5 @@
 import { type Callback, Redis, Result } from 'ioredis';
 import env from './env';
-// const client = new Redis("redis://default:ad11782d4b2b4f1e8d51979ddfb85610@glowing-python-37293.upstash.io:37293");
 
 const redis = new Redis(env.REDIS_URL);
 
