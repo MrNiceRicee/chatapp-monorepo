@@ -38,7 +38,10 @@ function PostMessage() {
   // create a unique username by using the current timestamp
 
   return (
-    <form onSubmit={onSubmit} className="space-y-2 pt-4 text-left flex flex-col">
+    <form
+      onSubmit={onSubmit}
+      className="space-y-2 pt-4 text-left flex flex-col"
+    >
       <div>
         <fieldset className="flex space-x-2 items-center">
           <label htmlFor="message" className="basis-1/2 w-full">

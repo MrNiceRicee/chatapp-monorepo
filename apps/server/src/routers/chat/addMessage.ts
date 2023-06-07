@@ -33,7 +33,7 @@ const addMessageMain = async ({
     timestamp: input.timestamp?.getTime() ?? Date.now(),
   };
 
-  await ctx.redis.lpush('public-messages', message);
+  await ctx.redis.addPublicMessage('public-messages', JSON.stringify(message));
 
   ctx.log.info({ message }, 'added message');
   ctx.events.emit('addPublicMessage', message);
