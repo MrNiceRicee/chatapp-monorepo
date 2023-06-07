@@ -4,7 +4,8 @@ import { type Message } from '../types/types';
 
 const emitter = new EventEmitter();
 
-type GenericFunction<Args extends unknown[] = unknown[], Return = unknown> = (
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type GenericFunction<Args extends any[] = any[], Return = any> = (
   ...args: Args
 ) => Return;
 
