@@ -5,6 +5,7 @@ import {
   wsLink,
   createWSClient,
   loggerLink,
+  splitLink,
 } from '@trpc/client';
 import { api } from './trpc';
 import env from '../config/env';
@@ -36,12 +37,23 @@ const trpcClient = api.createClient({
           typeof window !== 'undefined') ||
         (opts.direction === 'down' && opts.result instanceof Error),
     }),
-    wsLink({
-      client: wsClient,
+    splitLink({
+      condition(op) {
+        return op.type === 'subscription';
+      },
+      true: wsLink({
+        client: wsClient,
+      }),
+      false: httpBatchLink({
+        url: env.VITE_SERVER_URL,
+      }),
     }),
-    httpBatchLink({
-      url: env.VITE_SERVER_URL,
-    }),
+    // wsLink({
+    //   client: wsClient,
+    // }),
+    // httpBatchLink({
+    //   url: env.VITE_SERVER_URL,
+    // }),
   ],
   transformer: superjson,
 });

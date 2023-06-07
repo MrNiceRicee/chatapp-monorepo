@@ -4,6 +4,8 @@ const serverSchema = z.object({
   PORT: z.coerce.number().min(1).max(65535),
   SERVER_HOST: z.string(),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('production'),
+  REDIS_URL: z.string().url(),
+  REDIS_TOKEN_KEY: z.string().nonempty(),
 });
 
 const clientSchema = z.object({
@@ -11,7 +13,10 @@ const clientSchema = z.object({
 });
 
 function validationError(error: ZodError) {
-  console.error('❌ Invalid environment variables:', error.flatten().fieldErrors);
+  console.error(
+    '❌ Invalid environment variables:',
+    error.flatten().fieldErrors,
+  );
   throw new Error('Invalid environment variables');
 }
 

@@ -23,7 +23,7 @@ const envToLogger = {
 
 async function server() {
   const app = fastify({
-    logger: envToLogger[env.NODE_ENV] || true,
+    logger: envToLogger[env.NODE_ENV] ?? true,
     maxParamLength: 5000,
   });
 
@@ -40,7 +40,11 @@ async function server() {
   void app.register(fastifyTRPCPlugin, {
     useWSS: true,
     prefix: '/api',
-    trpcOptions: { router: appRouter, createContext: createTRPCContext, useWss: true },
+    trpcOptions: {
+      router: appRouter,
+      createContext: createTRPCContext,
+      useWss: true,
+    },
   });
 
   return app;
