@@ -11,6 +11,9 @@
     "type-check": "tsc --noEmit",
     "start": "node dist/index.mjs"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
