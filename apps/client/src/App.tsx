@@ -16,7 +16,7 @@ function HealthStatus() {
     return test.data ?? 'Unknown';
   };
 
-  return <p className="text-2xl">Status: {determineStatus()}</p>;
+  return <p className="text-2xl leading-none">Status: {determineStatus()}</p>;
 }
 
 function PostMessage() {
