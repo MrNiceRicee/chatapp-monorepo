@@ -15,10 +15,13 @@
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 import { CreateFastifyContextOptions } from '@trpc/server/adapters/fastify';
-import { serverEnv } from '@rice/env';
 import { type inferAsyncReturnType, initTRPC } from '@trpc/server';
 import superjson from 'superjson';
 import { ZodError } from 'zod';
+import { serverEnv } from '@rice/env';
+import pino from 'pino';
+import { redis } from './config/redis';
+import events from './config/emit';
 
 /** Replace this with an object if you want to pass things to `createContextInner`. */
 type CreateContextOptions = {
@@ -38,7 +41,10 @@ type CreateContextOptions = {
 const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     req: opts.req,
+    log: pino(),
     env: serverEnv(),
+    redis,
+    events,
   };
 };
 
@@ -70,7 +76,8 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
       ...shape,
       data: {
         ...shape.data,
-        zodError: error.cause instanceof ZodError ? error.cause.flatten() : null,
+        zodError:
+          error.cause instanceof ZodError ? error.cause.flatten() : null,
       },
     };
   },

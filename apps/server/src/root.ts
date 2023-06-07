@@ -1,5 +1,6 @@
 import { createTRPCRouter } from './trpc';
 import { healthRouter } from './routers/health/healthRouter';
+import { chatRouter } from './routers/chat/chatRouter';
 
 /**
  * This is the primary router for your server.
@@ -8,6 +9,7 @@ import { healthRouter } from './routers/health/healthRouter';
  */
 export const appRouter = createTRPCRouter({
   health: healthRouter,
+  chat: chatRouter,
 });
 
 // export type definition of the API

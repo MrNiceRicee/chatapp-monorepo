@@ -24,7 +24,6 @@ const config = {
         caughtErrorsIgnorePattern: '^_',
       },
     ],
-    'prefer-const': 'error',
     'no-var': 'error',
     'no-console': [
       'error',
@@ -32,6 +31,9 @@ const config = {
         allow: ['warn', 'error'],
       },
     ],
+    'no-useless-concat': 'error',
+    'no-template-curly-in-string': 'error',
+    'object-shorthand': ['error', 'always'],
     'padding-line-between-statements': [
       'error',
       { blankLine: 'always', prev: '*', next: 'return' },
@@ -39,8 +41,7 @@ const config = {
       { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
     ],
     'prefer-template': 'error',
-    'no-useless-concat': 'error',
-    'no-template-curly-in-string': 'error',
+    'prefer-const': 'error',
   },
   ignorePatterns: ['**/dist/**', '**/node_modules/**', '.eslintrc.cjs', '**/config.*'],
 };
