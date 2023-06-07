@@ -17,7 +17,6 @@ describe('serverEnv test', () => {
       PORT: '3000',
       SERVER_HOST: 'localhost',
       REDIS_URL: 'http://www.example.com',
-      REDIS_TOKEN_KEY: 'token',
     });
 
     expect(env).toEqual({
@@ -25,7 +24,6 @@ describe('serverEnv test', () => {
       SERVER_HOST: 'localhost',
       NODE_ENV: 'production',
       REDIS_URL: 'http://www.example.com',
-      REDIS_TOKEN_KEY: 'token',
     });
   });
 });

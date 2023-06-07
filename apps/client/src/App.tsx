@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { RouterOutput, api } from './api/trpc';
 
 function HealthStatus() {
@@ -21,6 +21,7 @@ function HealthStatus() {
 
 function PostMessage() {
   const addMessage = api.chat.addMessage.useMutation();
+  const messageRef = useRef<HTMLInputElement>(null);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,21 +34,29 @@ function PostMessage() {
       username,
       timestamp: new Date(Date.now()),
     });
+
+    // reset message
+    if (messageRef.current) {
+      messageRef.current.value = '';
+    }
   };
 
   // create a unique username by using the current timestamp
 
   return (
-    <form onSubmit={onSubmit} className="space-y-2 pt-4 text-left flex flex-col">
+    <form
+      onSubmit={onSubmit}
+      className="flex flex-col space-y-2 pt-4 text-left"
+    >
       <div>
-        <fieldset className="flex space-x-2 items-center">
-          <label htmlFor="message" className="basis-1/2 w-full">
+        <fieldset className="flex items-center space-x-2">
+          <label htmlFor="message" className="w-full basis-1/2">
             Username
           </label>
           <input
             type="text"
             name="username"
-            className=" border rounded-md p-2 w-full"
+            className=" w-full rounded-md border p-2"
           />
         </fieldset>
         {addMessage.error?.data?.zodError?.fieldErrors?.username && (
@@ -57,14 +66,15 @@ function PostMessage() {
         )}
       </div>
       <div>
-        <fieldset className="flex space-x-2 items-center">
-          <label htmlFor="message" className="basis-1/2 w-full">
+        <fieldset className="flex items-center space-x-2">
+          <label htmlFor="message" className="w-full basis-1/2">
             Message
           </label>
           <input
             type="text"
             name="message"
-            className="w-full border rounded-md p-2"
+            className="w-full rounded-md border p-2"
+            ref={messageRef}
           />
         </fieldset>
         {addMessage.error?.data?.zodError?.fieldErrors?.message && (
@@ -77,7 +87,7 @@ function PostMessage() {
       <button
         type="submit"
         disabled={addMessage.isLoading}
-        className="ml-auto px-4 py-2 bg-sky-50 border border-sky-500 rounded-md text-sky-900"
+        className="ml-auto rounded-md border border-sky-500 bg-sky-50 px-4 py-2 text-sky-900"
       >
         {addMessage.isLoading ? 'Sending...' : 'Send'}
       </button>
@@ -93,6 +103,8 @@ interface WebsocketData {
 }
 
 function WebsocketList({ messages }: { messages: MessageList }) {
+  const [scrollToBottom, setScrollToBottom] = useState(false);
+  const scrollRef = useRef<HTMLUListElement>(null);
   const [model, setModel] = useReducer(
     (prev: WebsocketData, next: Partial<WebsocketData>) => ({
       ...prev,
@@ -106,6 +118,7 @@ function WebsocketList({ messages }: { messages: MessageList }) {
       const newData = [...model.data, ...data];
 
       setModel({ data: newData });
+      setScrollToBottom(true);
     },
     onError(error) {
       setModel({ error: error.message });
@@ -115,26 +128,38 @@ function WebsocketList({ messages }: { messages: MessageList }) {
     },
   });
 
+  useEffect(() => {
+    if (scrollToBottom && scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      setScrollToBottom(false);
+    }
+  }, [scrollToBottom]);
+
   return (
     <div className="space-y-2 pt-4">
       <h2 className="text-2xl">Websocket Test</h2>
       <p className="text-lg">
         Status: {model.connected ? 'Connected' : 'Disconnected'}
       </p>
-      <ul className="space-y-2">
+      <ul
+        className="flex h-[40rem] max-w-sm flex-col space-y-2 overflow-auto rounded-md bg-gradient-to-t from-stone-100 to-stone-50 p-4 shadow-inner shadow-stone-300 dark:from-stone-900 dark:to-stone-900/70 dark:shadow-stone-800"
+        ref={scrollRef}
+      >
         {model.data.map((item, index) => (
           <li
             key={`item-${index}`}
-            className="border border-gray-300 rounded-md p-2"
+            className="rounded-md border border-gray-300 p-2 text-left "
           >
-            <p className="text w-full text-left">{item.username}</p>
-            <p className="text-lg">{item.message}</p>
-            <p className="text-sm">
+            <p className="flex w-full justify-between font-medium">
+              {item.username}
+            </p>
+            <p className="text-lg font-light">{item.message}</p>
+            <span className="ml-auto text-sm font-light">
               {new Intl.DateTimeFormat('en-US', {
                 dateStyle: 'medium',
                 timeStyle: 'short',
               }).format(item.timestamp)}
-            </p>
+            </span>
           </li>
         ))}
       </ul>
@@ -163,13 +188,15 @@ function WebsocketTest() {
 
 function App() {
   return (
-    <main className="w-full h-screen flex justify-center items-center">
+    <main className="flex h-screen w-full items-center justify-center">
       <section className="max-w-sm">
-        <h1 className="text-4xl text-center">Hello World</h1>
-        <section className="text-center space-y-4 divide-y divide-stone-400">
+        <header>
+          <h1 className="text-center text-4xl">Hello World</h1>
+        </header>
+        <section className="space-y-4 text-center">
           <HealthStatus />
-          <PostMessage />
           <WebsocketTest />
+          <PostMessage />
         </section>
       </section>
     </main>

@@ -1,10 +1,10 @@
 import { createTRPCRouter } from '../../trpc';
-import { message } from './messages';
+import { subscriptionMessage } from './subscriptionMessage';
 import { addMessage } from './addMessage';
 import { listMessage } from './listMessage';
 
 export const chatRouter = createTRPCRouter({
-  subscriptionMessages: message,
+  subscriptionMessages: subscriptionMessage,
   addMessage,
   listMessage,
 });
