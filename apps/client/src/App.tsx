@@ -44,53 +44,50 @@ function PostMessage() {
   // create a unique username by using the current timestamp
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className="flex flex-col space-y-2 pt-4 text-left"
-    >
-      <div>
+    <form onSubmit={onSubmit} className="flex flex-col">
+      <div className="space-y-4 overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-sky-500 focus-within:ring-1 focus-within:ring-sky-500">
         <fieldset className="flex items-center space-x-2">
-          <label htmlFor="message" className="w-full basis-1/2">
+          <label htmlFor="message" className="sr-only">
             Username
           </label>
           <input
             type="text"
             name="username"
-            className="w-full rounded-md border p-2 shadow-inner shadow-stone-100 dark:text-zinc-900 dark:shadow-stone-400"
+            placeholder="Username (ex: Josh)"
+            className="block w-full border-0 bg-inherit pt-2.5 text-lg font-medium placeholder:text-gray-400 focus:outline-none focus:ring-0"
           />
         </fieldset>
+        <fieldset className="flex items-center space-x-2">
+          <label htmlFor="message" className="sr-only">
+            Message
+          </label>
+          <textarea
+            rows={2}
+            name="message"
+            className="block w-full resize-none border-0 bg-inherit py-0 placeholder:text-gray-400 focus:outline-none focus:ring-0 sm:text-sm sm:leading-6"
+            placeholder="Write a description..."
+          />
+        </fieldset>
+        <div className="flex flex-col items-end border-t border-zinc-500 p-2">
+          <button
+            type="submit"
+            disabled={addMessage.isLoading || addMessage.error !== null}
+            className="rounded-md border border-sky-500 bg-sky-50 px-4 py-2 text-sky-900 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-sky-950 dark:text-sky-50"
+          >
+            {addMessage.isLoading ? 'Sending...' : 'Send'}
+          </button>
+        </div>
+      </div>
+      <div className="flex flex-col space-y-2 text-left text-sm text-red-900 dark:text-red-400">
+        {addMessage.error?.data?.zodError?.fieldErrors?.message && (
+          <p>{addMessage.error.data.zodError.fieldErrors.message.join(', ')}</p>
+        )}
         {addMessage.error?.data?.zodError?.fieldErrors?.username && (
-          <p className="text-sm text-red-900 ">
+          <p>
             {addMessage.error.data.zodError.fieldErrors.username.join(', ')}
           </p>
         )}
       </div>
-      <div>
-        <fieldset className="flex items-center space-x-2">
-          <label htmlFor="message" className="w-full basis-1/2">
-            Message
-          </label>
-          <input
-            type="text"
-            name="message"
-            className="w-full rounded-md border p-2 shadow-inner shadow-stone-100 dark:text-zinc-900 dark:shadow-stone-400"
-            ref={messageRef}
-          />
-        </fieldset>
-        {addMessage.error?.data?.zodError?.fieldErrors?.message && (
-          <p className="text-sm text-red-900 ">
-            {addMessage.error.data.zodError.fieldErrors.message.join(', ')}
-          </p>
-        )}
-      </div>
-
-      <button
-        type="submit"
-        disabled={addMessage.isLoading}
-        className="ml-auto rounded-md border border-sky-500 bg-sky-50 px-4 py-2 text-sky-900"
-      >
-        {addMessage.isLoading ? 'Sending...' : 'Send'}
-      </button>
     </form>
   );
 }
@@ -103,7 +100,7 @@ interface WebsocketData {
 }
 
 function WebsocketList({ messages }: { messages: MessageList }) {
-  const [scrollToBottom, setScrollToBottom] = useState(false);
+  const [scrollToBottom, setScrollToBottom] = useState(true);
   const scrollRef = useRef<HTMLUListElement>(null);
   const [model, setModel] = useReducer(
     (prev: WebsocketData, next: Partial<WebsocketData>) => ({
@@ -137,29 +134,28 @@ function WebsocketList({ messages }: { messages: MessageList }) {
 
   return (
     <div className="space-y-2 pt-4">
-      <h2 className="text-2xl">Websocket Test</h2>
       <p className="text-lg">
-        Status: {model.connected ? 'Connected' : 'Disconnected'}
+        Chat is {model.connected ? 'connected' : 'disconnected'}
       </p>
       <ul
-        className="flex h-[40rem] max-w-sm flex-col space-y-2 overflow-auto rounded-md bg-gradient-to-t from-stone-100 to-stone-50 p-4 shadow-inner shadow-stone-300 dark:from-stone-900 dark:to-stone-900/70 dark:shadow-stone-800"
+        className="flex max-h-[40vh] max-w-sm flex-col space-y-2 overflow-y-scroll rounded-md bg-gradient-to-t from-stone-100 to-stone-50 p-4 shadow-inner shadow-stone-300 dark:from-stone-900 dark:to-stone-900/70 dark:shadow-stone-800"
         ref={scrollRef}
       >
         {model.data.map((item, index) => (
           <li
             key={`item-${index}`}
-            className="rounded-md border border-gray-300 p-2 text-left "
+            className="rounded-md px-2 text-left text-sm outline outline-1 outline-gray-300"
           >
             <p className="flex w-full justify-between font-medium">
-              {item.username}
+              <span className="text-base">{item.username}</span>
+              <span className="ml-auto font-light">
+                {new Intl.DateTimeFormat('en-US', {
+                  dateStyle: 'medium',
+                  timeStyle: 'short',
+                }).format(item.timestamp)}
+              </span>
             </p>
-            <p className="text-lg font-light">{item.message}</p>
-            <span className="ml-auto text-sm font-light">
-              {new Intl.DateTimeFormat('en-US', {
-                dateStyle: 'medium',
-                timeStyle: 'short',
-              }).format(item.timestamp)}
-            </span>
+            <p className="font-light">{item.message}</p>
           </li>
         ))}
       </ul>
@@ -188,12 +184,12 @@ function WebsocketTest() {
 
 function App() {
   return (
-    <main className="flex h-screen w-full items-center justify-center">
+    <main className="flex min-h-[100dvh] w-full items-center justify-center">
       <section className="max-w-sm">
         <header>
           <h1 className="text-center text-4xl">Hello World</h1>
         </header>
-        <section className="space-y-4 text-center">
+        <section className="space-y-4 text-center px-2">
           <HealthStatus />
           <WebsocketTest />
           <PostMessage />
