@@ -5,7 +5,6 @@ const serverSchema = z.object({
   SERVER_HOST: z.string(),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('production'),
   REDIS_URL: z.string().url(),
-  REDIS_TOKEN_KEY: z.string().nonempty(),
 });
 
 const clientSchema = z.object({
