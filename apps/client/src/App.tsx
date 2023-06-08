@@ -1,24 +1,6 @@
 import { useEffect, useReducer, useRef, useState } from 'react';
 import { RouterOutput, api } from './api/trpc';
 
-function HealthStatus() {
-  const test = api.health.status.useQuery();
-
-  const determineStatus = () => {
-    if (test.isInitialLoading) {
-      return 'Loading...';
-    }
-
-    if (test.error) {
-      return test.error.message;
-    }
-
-    return test.data ?? 'Unknown';
-  };
-
-  return <p className="text-2xl leading-none">Status: {determineStatus()}</p>;
-}
-
 function PostMessage() {
   const addMessage = api.chat.addMessage.useMutation();
   const messageRef = useRef<HTMLInputElement>(null);
@@ -44,8 +26,8 @@ function PostMessage() {
   // create a unique username by using the current timestamp
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col">
-      <div className="space-y-4 overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-sky-500 focus-within:ring-1 focus-within:ring-sky-500">
+    <form onSubmit={onSubmit} className="flex w-full flex-col">
+      <div className="w-full space-y-4 overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-sky-500 focus-within:ring-1 focus-within:ring-sky-500">
         <fieldset className="flex items-center space-x-2">
           <label htmlFor="message" className="sr-only">
             Username
@@ -72,7 +54,7 @@ function PostMessage() {
           <button
             type="submit"
             disabled={addMessage.isLoading || addMessage.error !== null}
-            className="rounded-md border border-sky-500 bg-sky-50 px-4 py-2 text-sky-900 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-sky-950 dark:text-sky-50"
+            className="rounded-full border border-sky-500 bg-sky-50 px-4 py-2 text-sky-900 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-sky-950 dark:text-sky-50"
           >
             {addMessage.isLoading ? 'Sending...' : 'Send'}
           </button>
@@ -133,12 +115,12 @@ function WebsocketList({ messages }: { messages: MessageList }) {
   }, [scrollToBottom]);
 
   return (
-    <div className="space-y-2 pt-4">
+    <div className="space-y-2">
       <p className="text-lg">
         Chat is {model.connected ? 'connected' : 'disconnected'}
       </p>
       <ul
-        className="flex max-h-[40vh] max-w-sm flex-col space-y-2 overflow-y-scroll rounded-md bg-gradient-to-t from-stone-100 to-stone-50 p-4 shadow-inner shadow-stone-300 dark:from-stone-900 dark:to-stone-900/70 dark:shadow-stone-800"
+        className="flex max-h-[50vh] flex-col space-y-2 overflow-y-scroll rounded-md bg-gradient-to-t from-stone-100 to-stone-50 p-4 shadow-inner shadow-stone-300 dark:from-stone-900 dark:to-stone-900/70 dark:shadow-stone-800"
         ref={scrollRef}
       >
         {model.data.map((item, index) => (
@@ -184,16 +166,14 @@ function WebsocketTest() {
 
 function App() {
   return (
-    <main className="flex min-h-[100dvh] w-full items-center justify-center">
-      <section className="max-w-sm">
-        <header>
-          <h1 className="text-center text-4xl">Hello World</h1>
-        </header>
-        <section className="space-y-4 text-center px-2">
-          <HealthStatus />
-          <WebsocketTest />
-          <PostMessage />
-        </section>
+    <main className="h-full">
+      <header>
+        <h1 className="text-center text-4xl">Idk some chat app</h1>
+      </header>
+      {/* <section className="mx-auto flex h-full max-w-sm flex-col justify-between space-y-4 px-2 text-center"> */}
+      <section className="mx-auto max-w-sm px-2 space-y-2">
+        <WebsocketTest />
+        <PostMessage />
       </section>
     </main>
   );

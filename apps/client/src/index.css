@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    height: -webkit-fill-available;
+  }
+
+  body {
+    height: -webkit-fill-available;
+  }
+
+  /* If using React, set height on the root div as well */
+  #root {
+    height: -webkit-fill-available;
+  }
+}
