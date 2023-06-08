@@ -2,8 +2,22 @@ import { useEffect, useReducer, useRef, useState } from 'react';
 import { RouterOutput, api } from './api/trpc';
 
 function PostMessage() {
+  const apiContext = api.useContext();
+  const [users, setUsers] = useState<number>(0);
+  const initialUsers =
+    api.chat.subscriptionMessageSubscribersCount.useQuery(undefined);
   const addMessage = api.chat.addMessage.useMutation();
   const messageRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    setUsers(initialUsers.data ?? 0);
+  }, [initialUsers.data]);
+
+  api.chat.subscriptionMessageSubscribers.useSubscription(undefined, {
+    onData(data) {
+      setUsers(data);
+    },
+  });
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -17,13 +31,13 @@ function PostMessage() {
       timestamp: new Date(Date.now()),
     });
 
+    void apiContext.chat.subscriptionMessageSubscribersCount.invalidate();
+
     // reset message
     if (messageRef.current) {
       messageRef.current.value = '';
     }
   };
-
-  // create a unique username by using the current timestamp
 
   return (
     <form onSubmit={onSubmit} className="flex w-full flex-col">
@@ -51,7 +65,13 @@ function PostMessage() {
             ref={messageRef}
           />
         </fieldset>
-        <div className="flex flex-col items-end border-t border-zinc-500 p-2">
+        <div className="flex items-center justify-between border-t border-zinc-500 p-2">
+          <div className="flex h-full items-center rounded-full border border-teal-500 px-4 py-2 text-sm">
+            <p className="space-x-2">
+              <span>Users</span>
+              <span className="">{users}</span>
+            </p>
+          </div>
           <button
             type="submit"
             disabled={addMessage.isLoading || addMessage.error !== null}
@@ -83,6 +103,7 @@ interface WebsocketData {
 }
 
 function WebsocketList({ messages }: { messages: MessageList }) {
+  const apiContext = api.useContext();
   const [scrollToBottom, setScrollToBottom] = useState(true);
   const scrollRef = useRef<HTMLUListElement>(null);
   const [model, setModel] = useReducer(
@@ -99,6 +120,7 @@ function WebsocketList({ messages }: { messages: MessageList }) {
 
       setModel({ data: newData });
       setScrollToBottom(true);
+      void apiContext.chat.subscriptionMessageSubscribersCount.invalidate();
     },
     onError(error) {
       setModel({ error: error.message });
@@ -138,7 +160,9 @@ function WebsocketList({ messages }: { messages: MessageList }) {
                 }).format(item.timestamp)}
               </span>
             </p>
-            <p className="font-extralight whitespace-pre-wrap">{item.message}</p>
+            <p className="whitespace-pre-wrap font-extralight">
+              {item.message}
+            </p>
           </li>
         ))}
       </ul>

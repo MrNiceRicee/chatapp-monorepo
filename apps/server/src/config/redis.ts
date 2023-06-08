@@ -24,6 +24,16 @@ redis.defineCommand('listPublicMessages', {
   `,
 });
 
+// track # of subscribers
+redis.defineCommand('publicMessageSubscribers', {
+  numberOfKeys: 0,
+  lua: `
+    local key = 'public-messages-subscribers'
+    local count = redis.call('incr', key)
+    return count
+  `,
+});
+
 declare module 'ioredis' {
   interface RedisCommander<Context> {
     addPublicMessage(

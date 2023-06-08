@@ -11,6 +11,7 @@ type GenericFunction<Args extends any[] = any[], Return = any> = (
 
 export interface EventList {
   addPublicMessage: GenericFunction<[Message], void>;
+  publicMessageSubscribers: GenericFunction<[number], void>;
 }
 
 // type-safe EventEmitter
