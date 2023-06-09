@@ -1,5 +1,14 @@
 import { useEffect, useReducer, useRef, useState } from 'react';
 import { RouterOutput, api } from './api/trpc';
+import { atomWithStorage } from 'jotai/utils';
+
+const userAtom = atomWithStorage<{
+  username: string | null;
+  color: string | null;
+}>('user', {
+  username: null,
+  color: null,
+});
 
 function PostMessage() {
   const apiContext = api.useContext();
@@ -191,8 +200,8 @@ function WebsocketTest() {
 
 function App() {
   return (
-    <main className="h-full">
-      <header>
+    <main className="relative">
+      <header className="sticky">
         <h1 className="text-center text-4xl">Idk some chat app</h1>
       </header>
       <section className="mx-auto h-full max-w-sm space-y-2 px-2">
