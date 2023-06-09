@@ -18,6 +18,7 @@
     "@trpc/client": "10.29.1",
     "@trpc/react-query": "10.29.1",
     "@trpc/server": "10.29.1",
+    "jotai": "^2.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "superjson": "1.12.3"
