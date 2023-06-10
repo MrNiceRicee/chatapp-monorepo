@@ -105,6 +105,34 @@ function PostMessage() {
 }
 
 type MessageList = RouterOutput['chat']['listMessage'];
+
+const DisplayMessage = ({
+  messageData,
+}: {
+  messageData: MessageList[number];
+}) => {
+  const { message, username, timestamp } = messageData;
+  const avatar = username[0]?.toUpperCase();
+
+  const formattedDate = new Intl.DateTimeFormat('en-US', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  }).format(timestamp);
+
+  return (
+    <li className="flex items-center space-x-2">
+      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-teal-500 bg-teal-950 text-white">
+        <span className="text-sm font-bold">{avatar}</span>
+      </div>
+      <article className="flex-grow">
+        <div className="text-sm font-medium">{username}</div>
+        <div className="text-sm text-gray-500">{formattedDate}</div>
+        <div className="mt-1 text-lg">{message}</div>
+      </article>
+    </li>
+  );
+};
+
 interface WebsocketData {
   data: MessageList;
   error: string | null;
@@ -113,8 +141,6 @@ interface WebsocketData {
 
 function WebsocketList({ messages }: { messages: MessageList }) {
   const apiContext = api.useContext();
-  const [scrollToBottom, setScrollToBottom] = useState(true);
-  const scrollRef = useRef<HTMLUListElement>(null);
   const [model, setModel] = useReducer(
     (prev: WebsocketData, next: Partial<WebsocketData>) => ({
       ...prev,
@@ -128,7 +154,6 @@ function WebsocketList({ messages }: { messages: MessageList }) {
       const newData = [...model.data, ...data];
 
       setModel({ data: newData });
-      setScrollToBottom(true);
       void apiContext.chat.subscriptionMessageSubscribersCount.invalidate();
     },
     onError(error) {
@@ -139,49 +164,34 @@ function WebsocketList({ messages }: { messages: MessageList }) {
     },
   });
 
-  useEffect(() => {
-    if (scrollToBottom && scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      setScrollToBottom(false);
-    }
-  }, [scrollToBottom]);
-
   return (
-    <div className="space-y-2">
+    <div className="flex h-full flex-col">
       <p className="text-lg">
         Chat is {model.connected ? 'connected' : 'disconnected'}
       </p>
-      <ul
-        className="flex max-h-[50vh] flex-col space-y-2 overflow-y-scroll overscroll-contain rounded-md bg-gradient-to-t from-stone-100 to-stone-50 p-4 shadow-inner shadow-stone-300 dark:from-stone-900 dark:to-stone-900/70 dark:shadow-stone-800"
-        ref={scrollRef}
-      >
+      <ul className="my-2 space-y-2 overflow-auto rounded-md bg-gradient-to-t from-stone-100 to-stone-50 p-4 shadow-inner shadow-stone-300 dark:from-stone-900 dark:to-stone-900/70 dark:shadow-stone-800">
         {model.data.map((item, index) => (
-          <li
-            key={`item-${index}`}
-            className="rounded-md px-2 text-left text-sm outline outline-1 outline-gray-300"
-          >
-            <p className="flex w-full justify-between text-xs">
-              <span className="text-base font-medium">{item.username}</span>
-              <span className="ml-auto font-extralight">
-                {new Intl.DateTimeFormat('en-US', {
-                  dateStyle: 'medium',
-                  timeStyle: 'short',
-                }).format(item.timestamp)}
-              </span>
-            </p>
-            <p className="whitespace-pre-wrap font-extralight">
-              {item.message}
-            </p>
-          </li>
+          <DisplayMessage key={index} messageData={item} />
         ))}
       </ul>
       {model.data.length === 0 && <p className="text-lg">No messages yet</p>}
+      <div className="mt-auto">
+        <PostMessage />
+      </div>
     </div>
   );
 }
 
 function WebsocketTest() {
   const messages = api.chat.listMessage.useQuery();
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // if (messages.data?.length === 0) {
+    // return;
+    // }
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages.data]);
 
   if (messages.error) {
     return <p className="text-lg">Error: {messages.error.message}</p>;
@@ -195,7 +205,12 @@ function WebsocketTest() {
     return <p className="text-lg">No messages yet</p>;
   }
 
-  return <WebsocketList messages={messages.data} />;
+  return (
+    <>
+      <WebsocketList messages={messages.data} />
+      <div ref={bottomRef} />
+    </>
+  );
 }
 
 function App() {
@@ -206,7 +221,6 @@ function App() {
       </header>
       <section className="mx-auto h-full max-w-sm space-y-2 px-2">
         <WebsocketTest />
-        <PostMessage />
       </section>
     </main>
   );
