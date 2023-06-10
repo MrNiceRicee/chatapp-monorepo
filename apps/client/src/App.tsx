@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef, useState } from 'react';
+import { RefObject, useEffect, useReducer, useRef, useState } from 'react';
 import { RouterOutput, api } from './api/trpc';
 import { atomWithStorage } from 'jotai/utils';
 
@@ -134,26 +134,40 @@ const DisplayMessage = ({
 };
 
 interface WebsocketData {
-  data: MessageList;
+  // data: MessageList;
   error: string | null;
   connected: boolean;
 }
 
-function WebsocketList({ messages }: { messages: MessageList }) {
+function ChatList({
+  messages,
+  scrollRef,
+}: {
+  messages: MessageList;
+  scrollRef: RefObject<HTMLDivElement>;
+}) {
   const apiContext = api.useContext();
   const [model, setModel] = useReducer(
     (prev: WebsocketData, next: Partial<WebsocketData>) => ({
       ...prev,
       ...next,
     }),
-    { data: messages ?? [], error: null, connected: false },
+    { error: null, connected: false },
   );
 
   api.chat.subscriptionMessages.useSubscription(undefined, {
     onData(data) {
-      const newData = [...model.data, ...data];
+      // const newData = [...model.data, ...data];
 
-      setModel({ data: newData });
+      // setModel({ data: newData });
+      apiContext.chat.listMessage.setData(undefined, (oldData) => {
+        if (!oldData) {
+          return data;
+        }
+
+        return [...oldData, ...data];
+      });
+      scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
       void apiContext.chat.subscriptionMessageSubscribersCount.invalidate();
     },
     onError(error) {
@@ -170,26 +184,20 @@ function WebsocketList({ messages }: { messages: MessageList }) {
         Chat is {model.connected ? 'connected' : 'disconnected'}
       </p>
       <ul className="my-2 space-y-2 overflow-auto rounded-md bg-gradient-to-t from-stone-100 to-stone-50 p-4 shadow-inner shadow-stone-300 dark:from-stone-900 dark:to-stone-900/70 dark:shadow-stone-800">
-        {model.data.map((item, index) => (
+        {messages.map((item, index) => (
           <DisplayMessage key={index} messageData={item} />
         ))}
       </ul>
-      {model.data.length === 0 && <p className="text-lg">No messages yet</p>}
-      <div className="mt-auto">
-        <PostMessage />
-      </div>
+      {messages.length === 0 && <p className="text-lg">No messages yet</p>}
     </div>
   );
 }
 
-function WebsocketTest() {
+function Chat() {
   const messages = api.chat.listMessage.useQuery();
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // if (messages.data?.length === 0) {
-    // return;
-    // }
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages.data]);
 
@@ -206,10 +214,11 @@ function WebsocketTest() {
   }
 
   return (
-    <>
-      <WebsocketList messages={messages.data} />
+    <section className="mx-auto h-full max-w-sm space-y-2 px-2">
+      <ChatList messages={messages.data} scrollRef={bottomRef} />
+      <PostMessage />
       <div ref={bottomRef} />
-    </>
+    </section>
   );
 }
 
@@ -219,9 +228,7 @@ function App() {
       <header className="sticky">
         <h1 className="text-center text-4xl">Idk some chat app</h1>
       </header>
-      <section className="mx-auto h-full max-w-sm space-y-2 px-2">
-        <WebsocketTest />
-      </section>
+      <Chat />
     </main>
   );
 }
