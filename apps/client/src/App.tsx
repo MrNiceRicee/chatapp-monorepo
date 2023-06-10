@@ -150,8 +150,6 @@ const DisplayMessage = ({
     timeStyle: 'short',
   }).format(timestamp);
 
-  console.log(color);
-
   return (
     <li
       className="flex items-center space-x-2 rounded-md border px-2 py-1"
