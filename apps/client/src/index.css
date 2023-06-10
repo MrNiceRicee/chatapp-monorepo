@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background-contrast: black;
+  }
+
   html {
     height: -webkit-fill-available;
   }
@@ -15,4 +19,9 @@
   #root {
     height: -webkit-fill-available;
   }
+
+  .dark {
+    --background-contrast: white;
+  }
 }
+

@@ -17,6 +17,14 @@ const addMessageInput = z.object({
     })
     .trim(),
   timestamp: z.date().optional(),
+  color: z.string().refine(
+    (v) => {
+      return /^#[0-9A-F]{6}$/i.test(v);
+    },
+    {
+      message: 'Color must be a hex color code',
+    },
+  ),
 });
 
 const addMessageMain = async ({
@@ -30,6 +38,7 @@ const addMessageMain = async ({
   const message = {
     message: input.message,
     username: input.username,
+    color: input.color,
     timestamp: input.timestamp?.getTime() ?? Date.now(),
   };
 
