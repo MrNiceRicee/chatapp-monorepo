@@ -2,6 +2,7 @@ import { type RefObject, useEffect, useReducer, useRef, useState } from 'react';
 import { atomWithStorage } from 'jotai/utils';
 import { useAtom } from 'jotai';
 import { api, RouterOutput } from './api/trpc';
+import { getContrastColor, getContrastSameColor } from './util/color';
 
 interface UserAtom {
   username: string | null;
@@ -135,15 +136,31 @@ function PostMessage() {
   );
 }
 
+function Avatar({ username, color }: { username: string; color?: string }) {
+  return (
+    <div
+      className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-teal-500 bg-teal-950 text-white"
+      style={{
+        backgroundColor: color,
+        borderColor: getContrastSameColor(color, 0.5),
+      }}
+    >
+      <span
+        className="text-sm font-bold"
+        style={{
+          color: getContrastSameColor(color),
+        }}
+      >
+        {username.slice(0, 2)}
+      </span>
+    </div>
+  );
+}
+
 type MessageList = RouterOutput['chat']['listMessage'];
 
-const DisplayMessage = ({
-  messageData,
-}: {
-  messageData: MessageList[number];
-}) => {
+function DisplayMessage({ messageData }: { messageData: MessageList[number] }) {
   const { message, username, timestamp, color } = messageData;
-  const avatar = username[0]?.toUpperCase();
 
   const formattedDate = new Intl.DateTimeFormat('en-US', {
     dateStyle: 'medium',
@@ -154,42 +171,24 @@ const DisplayMessage = ({
     <li
       className="flex items-center space-x-2 rounded-md border px-2 py-1"
       style={{
-        backgroundColor: `${color}/50`,
+        borderColor: color,
+        // background: `linear-gradient(170deg, transparent 50%, ${getContrastColor(
+        //   color,
+        //   0.5,
+        // )} 100%)`,
+        background: `linear-gradient(170deg, ${color} 0%, transparent 30%)`,
       }}
     >
-      <div
-        className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-teal-500 bg-teal-950 text-white"
-        // style={{
-        //   backgroundColor: color,
-        // }}
-      >
-        <span
-          className="text-sm font-bold"
-          // style={{
-          //   '--text': `color-contrast(${color ?? '#fff'} vs white, black, gray, pink)`,
-          //   color: 'var(--text)',
-          // }}
-        >
-          {avatar}
-        </span>
-      </div>
+      <Avatar username={username} color={color} />
       <article className="flex-grow">
-        <div
-          className="text-sm font-medium"
-          style={{
-            color: `color-contrast(${
-              color || 'var(--background-contrast)'
-            } vs white, black)`,
-          }}
-        >
+        <div className="text-sm font-medium">
           <span
+            className="text-sm font-bold"
             style={{
-              color: `color-contrast(${
-                color || 'var(--background-contrast)'
-              } vs white, black)`,
+              color: getContrastColor(color),
             }}
           >
-            {username} - {color}
+            {username}
           </span>
         </div>
         <div className="text-sm text-gray-500">{formattedDate}</div>
@@ -197,7 +196,7 @@ const DisplayMessage = ({
       </article>
     </li>
   );
-};
+}
 
 interface WebsocketData {
   // data: MessageList;
@@ -283,7 +282,7 @@ function Chat() {
   }
 
   return (
-    <section className="mx-auto h-full max-w-sm space-y-2 px-2">
+    <section className="mx-auto max-w-sm space-y-2 px-2">
       <ChatList messages={messages.data} scrollRef={bottomRef} />
       <PostMessage />
       <div ref={bottomRef} />
