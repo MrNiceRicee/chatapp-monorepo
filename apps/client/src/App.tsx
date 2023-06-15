@@ -2,7 +2,7 @@ import { type RefObject, useEffect, useReducer, useRef, useState } from 'react';
 import { atomWithStorage } from 'jotai/utils';
 import { useAtom } from 'jotai';
 import { api, RouterOutput } from './api/trpc';
-import { getContrastColor, getContrastSameColor } from './util/color';
+import { getContrastColor, getContrastSameColor, hexToRGB } from './util/color';
 
 interface UserAtom {
   username: string | null;
@@ -137,22 +137,32 @@ function PostMessage() {
 }
 
 function Avatar({ username, color }: { username: string; color?: string }) {
+  const containerColors = hexToRGB(color ?? '#000000');
+
   return (
     <div
-      className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-teal-500 bg-teal-950 text-white"
+      className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full p-[2px] text-white shadow-sm shadow-black/40 dark:bg-zinc-800 backdrop-blur-sm"
       style={{
-        backgroundColor: color,
-        borderColor: getContrastSameColor(color, 0.5),
+        backgroundColor: getContrastSameColor(color, 0.5),
+        // borderColor: getContrastSameColor(color, 0.5),
       }}
     >
-      <span
-        className="text-sm font-bold"
+      <div
+        className="flex h-full w-full items-center justify-center rounded-full shadow-lg shadow-black/50 backdrop-blur-sm"
         style={{
-          color: getContrastSameColor(color),
+          backgroundColor: `rgba(${containerColors[0]}, ${containerColors[1]}, ${containerColors[2]}, 0.9)`,
         }}
       >
-        {username.slice(0, 2)}
-      </span>
+        <span
+          className="bg-transparent text-sm font-bold"
+          style={{
+            color: getContrastSameColor(color),
+          }}
+        >
+          {/* {username.slice(0, 2)} */}
+          {username[0]}
+        </span>
+      </div>
     </div>
   );
 }
@@ -168,32 +178,30 @@ function DisplayMessage({ messageData }: { messageData: MessageList[number] }) {
   }).format(timestamp);
 
   return (
-    <li
-      className="flex items-center space-x-2 rounded-md border px-2 py-1"
-      style={{
-        borderColor: color,
-        // background: `linear-gradient(170deg, transparent 50%, ${getContrastColor(
-        //   color,
-        //   0.5,
-        // )} 100%)`,
-        background: `linear-gradient(170deg, ${color} 0%, transparent 30%)`,
-      }}
-    >
+    <li className="flex items-center space-x-2">
       <Avatar username={username} color={color} />
-      <article className="flex-grow">
-        <div className="text-sm font-medium">
-          <span
-            className="text-sm font-bold"
+      <div className="flex flex-grow flex-col">
+        <div className="flex justify-between text-sm">
+          <span>{username}</span>
+          <span>{formattedDate}</span>
+        </div>
+        <article
+          className="mb-2 flex flex-grow rounded-md border px-2 py-1 dark:bg-zinc-800"
+          style={{
+            borderColor: getContrastSameColor(color),
+            backgroundColor: color,
+          }}
+        >
+          <p
+            className="text-sm"
             style={{
               color: getContrastColor(color),
             }}
           >
-            {username}
-          </span>
-        </div>
-        <div className="text-sm text-gray-500">{formattedDate}</div>
-        <div className="mt-1 text-lg">{message}</div>
-      </article>
+            {message}
+          </p>
+        </article>
+      </div>
     </li>
   );
 }
@@ -251,7 +259,7 @@ function ChatList({
       <p className="text-lg">
         Chat is {model.connected ? 'connected' : 'disconnected'}
       </p>
-      <ul className="my-2 space-y-2 overflow-auto rounded-md bg-gradient-to-t from-stone-100 to-stone-50 px-2 py-2 shadow-inner shadow-stone-300 dark:from-stone-900 dark:to-stone-900/70 dark:shadow-stone-800">
+      <ul className="space-y-1">
         {messages.map((item, index) => (
           <DisplayMessage key={index} messageData={item} />
         ))}
@@ -293,6 +301,10 @@ function Chat() {
 function App() {
   return (
     <main className="relative">
+      <div
+        className="absolute inset-0 -z-10 h-full w-full bg-gradient-to-b from-stone-50 to-transparent dark:from-stone-800 dark:to-stone-900"
+        aria-hidden
+      />
       <header className="sticky">
         <h1 className="text-center text-4xl">Idk some chat app</h1>
       </header>
