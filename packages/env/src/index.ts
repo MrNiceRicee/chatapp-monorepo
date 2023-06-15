@@ -1,4 +1,4 @@
-import { type ZodError, z } from 'zod';
+import { z, type ZodError } from 'zod';
 
 const serverSchema = z.object({
   PORT: z.coerce.number().min(1).max(65535),

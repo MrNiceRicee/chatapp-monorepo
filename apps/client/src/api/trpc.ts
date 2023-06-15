@@ -1,5 +1,5 @@
 import { type AppRouter } from '@rice/server';
-import { TRPCClientError, createTRPCReact } from '@trpc/react-query';
+import { createTRPCReact, TRPCClientError } from '@trpc/react-query';
 import { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 
 export const api = createTRPCReact<AppRouter>();
