@@ -71,6 +71,9 @@ importers:
       '@trpc/server':
         specifier: 10.29.1
         version: 10.29.1
+      clsx:
+        specifier: ^1.2.1
+        version: 1.2.1
       jotai:
         specifier: ^2.1.1
         version: 2.1.1(react@18.2.0)
@@ -83,6 +86,9 @@ importers:
       superjson:
         specifier: 1.12.3
         version: 1.12.3
+      tailwind-merge:
+        specifier: ^1.13.1
+        version: 1.13.1
     devDependencies:
       '@types/react':
         specifier: ^18.0.37
@@ -1570,6 +1576,11 @@ packages:
     resolution: {integrity: sha512-ROoL94jJH2dUVML2Y/5PEDNaSHgeOdSDicUyS7izcF63G6sTc/FTjLub4b8Il9S8S0beOfYt0TaA5qvFK+w0wA==}
     dependencies:
       mimic-response: 1.0.1
+    dev: false
+
+  /clsx@1.2.1:
+    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
     dev: false
 
   /cluster-key-slot@1.1.2:
@@ -4099,6 +4110,10 @@ packages:
     dependencies:
       '@pkgr/utils': 2.4.1
       tslib: 2.5.3
+    dev: false
+
+  /tailwind-merge@1.13.1:
+    resolution: {integrity: sha512-tRtRN22TDokGi2TuYSvuHQuuW6BJ/zlUEG+iYpAQ9i66msc/0eU/+HPccbPnNNH0mCPp0Ob8thaC8Uy9CxHitQ==}
     dev: false
 
   /tailwindcss-safe-area@0.3.0:

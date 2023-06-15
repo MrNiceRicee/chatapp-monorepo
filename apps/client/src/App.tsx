@@ -2,7 +2,13 @@ import { type RefObject, useEffect, useReducer, useRef, useState } from 'react';
 import { atomWithStorage } from 'jotai/utils';
 import { useAtom } from 'jotai';
 import { api, RouterOutput } from './api/trpc';
-import { getContrastColor, getContrastSameColor, hexToRGB } from './util/color';
+import {
+  getContrastColor,
+  getContrastSameColor,
+  hexToRGB,
+  RGBToHSL,
+} from './util/color';
+import { classNames } from './util/style';
 
 interface UserAtom {
   username: string | null;
@@ -137,32 +143,111 @@ function PostMessage() {
 }
 
 function Avatar({ username, color }: { username: string; color?: string }) {
-  const containerColors = hexToRGB(color ?? '#000000');
+  const containerColors = hexToRGB(color ?? '#27272A');
+  const containerHSL = RGBToHSL(containerColors);
 
   return (
     <div
-      className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full p-[2px] text-white shadow-sm shadow-black/40 dark:bg-zinc-800 backdrop-blur-sm"
+      className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full p-[2px] text-white shadow-sm shadow-black/40 backdrop-blur-sm dark:bg-zinc-800 lg:h-14 lg:w-14"
       style={{
-        backgroundColor: getContrastSameColor(color, 0.5),
+        backgroundColor: getContrastSameColor(color, 0.9),
         // borderColor: getContrastSameColor(color, 0.5),
       }}
     >
       <div
-        className="flex h-full w-full items-center justify-center rounded-full shadow-lg shadow-black/50 backdrop-blur-sm"
+        className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full backdrop-blur-sm"
         style={{
           backgroundColor: `rgba(${containerColors[0]}, ${containerColors[1]}, ${containerColors[2]}, 0.9)`,
+          boxShadow: `
+            0.5px 1px 1px 0 hsl(${containerHSL[0]},${color ? '60%' : '0%'},${
+            color ? '90%' : '95%'
+          },0.3) inset,
+            0px -1px 1px 0 hsl(260,0%,0%,0.3) inset,
+            0 10px 15px -3px hsl(260,0%,0%,0.3),
+            0 4px 6px -2px hsl(260,0%,0%,0.3)
+          `,
         }}
       >
+        <div
+          className="absolute inset-0 -z-10 h-full w-full select-none rounded-full"
+          style={{
+            // radial-gradient
+            background: `
+            radial-gradient(
+              40% 50% at center 100%,
+              hsl(270 0% 72% / 0.05),
+              transparent
+            ),
+            radial-gradient(
+              80% 100% at center 120%,
+              hsl(260 0% 70% / 0.1),
+              transparent
+            )
+          `,
+          }}
+          aria-hidden
+        />
         <span
-          className="bg-transparent text-sm font-bold"
+          className="bg-transparent text-sm font-bold lg:text-xl"
           style={{
             color: getContrastSameColor(color),
           }}
         >
-          {/* {username.slice(0, 2)} */}
-          {username[0]}
+          {username.slice(0, 2)}
         </span>
       </div>
+    </div>
+  );
+}
+
+interface CardProps {
+  children: React.ReactNode;
+  className?: string;
+  color?: string;
+}
+
+function Card({ children, color, className }: CardProps) {
+  const containerColors = hexToRGB(color ?? '#27272A');
+  const containerHSL = RGBToHSL(containerColors);
+
+  return (
+    <div
+      className={classNames(
+        'relative flex items-center justify-center overflow-hidden rounded-sm backdrop-blur-sm',
+        className,
+      )}
+      style={{
+        backgroundColor: `rgba(${containerColors[0]}, ${containerColors[1]}, ${containerColors[2]}, 0.9)`,
+        boxShadow: `
+            0.5px 1px 1px 0 hsl(${containerHSL[0]},${color ? '60%' : '0%'},${
+          color ? '90%' : '95%'
+        },0.3) inset,
+            0px -1px 1px 0 hsl(260,0%,0%,0.3) inset,
+            0 10px 15px -3px hsl(260,0%,0%,0.3),
+            0 4px 6px -2px hsl(260,0%,0%,0.3)
+          `,
+      }}
+    >
+      {/* <div
+        className="absolute inset-0 -z-10 h-full w-full select-none"
+        style={{
+          // radial-gradient
+          background: `
+            radial-gradient(
+              40% 50% at center 100%,
+              hsl(270 0% 72% / 0.05),
+              transparent
+            ),
+            radial-gradient(
+              80% 100% at center 120%,
+              hsl(260 0% 70% / 0.1),
+              transparent
+            )
+          `,
+        }}
+        aria-hidden
+      /> */}
+      {children}
     </div>
   );
 }
@@ -185,22 +270,16 @@ function DisplayMessage({ messageData }: { messageData: MessageList[number] }) {
           <span>{username}</span>
           <span>{formattedDate}</span>
         </div>
-        <article
-          className="mb-2 flex flex-grow rounded-md border px-2 py-1 dark:bg-zinc-800"
-          style={{
-            borderColor: getContrastSameColor(color),
-            backgroundColor: color,
-          }}
-        >
+        <Card color={color} className="rounded-md px-2 py-1">
           <p
-            className="text-sm"
+            className="w-full text-left text-sm lg:text-xl"
             style={{
               color: getContrastColor(color),
             }}
           >
             {message}
           </p>
-        </article>
+        </Card>
       </div>
     </li>
   );
@@ -290,7 +369,7 @@ function Chat() {
   }
 
   return (
-    <section className="mx-auto max-w-sm space-y-2 px-2">
+    <section className="mx-auto max-w-sm space-y-2 px-2 lg:max-w-xl">
       <ChatList messages={messages.data} scrollRef={bottomRef} />
       <PostMessage />
       <div ref={bottomRef} />
@@ -300,7 +379,7 @@ function Chat() {
 
 function App() {
   return (
-    <main className="relative">
+    <main className="relative pb-2">
       <div
         className="absolute inset-0 -z-10 h-full w-full bg-gradient-to-b from-stone-50 to-transparent dark:from-stone-800 dark:to-stone-900"
         aria-hidden

@@ -2,6 +2,7 @@ export function hexToRGB(hex: string): [number, number, number] {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
+
   return [r, g, b];
 }
 
@@ -9,11 +10,12 @@ export function RGBToHSL(
   rgb: [number, number, number],
 ): [number, number, number] {
   let [r, g, b] = rgb;
+
   (r /= 255), (g /= 255), (b /= 255);
-  let max = Math.max(r, g, b),
+  const max = Math.max(r, g, b),
     min = Math.min(r, g, b);
-  let s,
-    l = (max + min) / 2;
+  let s;
+  const l = (max + min) / 2;
 
   // Declare and initialize h
   let h = 0;
@@ -21,7 +23,8 @@ export function RGBToHSL(
   if (max === min) {
     h = s = 0; // achromatic
   } else {
-    let d = max - min;
+    const d = max - min;
+
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
     switch (max) {
       case r:
@@ -62,6 +65,7 @@ export function getContrastColor(hexColor?: string, opacity?: number) {
   const rgb = hexToRGB(hexColor);
   const hsl = RGBToHSL(rgb);
   const lightness = hsl[2];
+
   // choose white or black based on lightness
   return lightness > 50
     ? `rgba(20, 20, 20, ${opacity || 1})`
