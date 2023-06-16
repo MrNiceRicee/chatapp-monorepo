@@ -148,7 +148,7 @@ function Avatar({ username, color }: { username: string; color?: string }) {
 
   return (
     <div
-      className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full p-[2px] text-white shadow-sm shadow-black/40 backdrop-blur-sm dark:bg-zinc-800 lg:h-14 lg:w-14"
+      className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full p-[1.5px] text-white shadow-sm shadow-black/40 backdrop-blur-sm dark:bg-zinc-800 lg:h-14 lg:w-14"
       style={{
         backgroundColor: getContrastSameColor(color, 0.9),
         // borderColor: getContrastSameColor(color, 0.5),
@@ -159,7 +159,7 @@ function Avatar({ username, color }: { username: string; color?: string }) {
         style={{
           backgroundColor: `rgba(${containerColors[0]}, ${containerColors[1]}, ${containerColors[2]}, 0.9)`,
           boxShadow: `
-            0.5px 1px 1px 0 hsl(${containerHSL[0]},${color ? '60%' : '0%'},${
+            0.5px .5px 1px 0 hsl(${containerHSL[0]},${color ? '60%' : '0%'},${
             color ? '90%' : '95%'
           },0.3) inset,
             0px -1px 1px 0 hsl(260,0%,0%,0.3) inset,
@@ -219,7 +219,7 @@ function Card({ children, color, className }: CardProps) {
       style={{
         backgroundColor: `rgba(${containerColors[0]}, ${containerColors[1]}, ${containerColors[2]}, 0.9)`,
         boxShadow: `
-            0.5px 1px 1px 0 hsl(${containerHSL[0]},${color ? '60%' : '0%'},${
+            0.5px .5px 1px 0 hsl(${containerHSL[0]},${color ? '60%' : '0%'},${
           color ? '90%' : '95%'
         },0.3) inset,
             0px -1px 1px 0 hsl(260,0%,0%,0.3) inset,
@@ -381,7 +381,7 @@ function App() {
   return (
     <main className="relative pb-2">
       <div
-        className="absolute inset-0 -z-10 h-full w-full bg-gradient-to-b from-stone-50 to-transparent dark:from-stone-800 dark:to-stone-900"
+        className="absolute inset-0 -z-10 h-full w-full bg-stone-50 dark:bg-stone-800"
         aria-hidden
       />
       <header className="sticky">
