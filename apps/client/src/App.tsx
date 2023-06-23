@@ -207,8 +207,8 @@ interface CardProps {
 }
 
 function Card({ children, color, className }: CardProps) {
-  const containerColors = hexToRGB(color ?? '#27272A');
-  const containerHSL = RGBToHSL(containerColors);
+  // const containerColors = hexToRGB(color ?? '#27272A');
+  // const containerHSL = RGBToHSL(containerColors);
 
   return (
     <div
@@ -216,17 +216,17 @@ function Card({ children, color, className }: CardProps) {
         'relative flex items-center justify-center overflow-hidden rounded-sm backdrop-blur-sm',
         className,
       )}
-      style={{
-        backgroundColor: `rgba(${containerColors[0]}, ${containerColors[1]}, ${containerColors[2]}, 0.9)`,
-        boxShadow: `
-            0.5px .5px 1px 0 hsl(${containerHSL[0]},${color ? '60%' : '0%'},${
-          color ? '90%' : '95%'
-        },0.3) inset,
-            0px -1px 1px 0 hsl(260,0%,0%,0.3) inset,
-            0 10px 15px -3px hsl(260,0%,0%,0.3),
-            0 4px 6px -2px hsl(260,0%,0%,0.3)
-          `,
-      }}
+      // style={{
+      //   backgroundColor: `rgba(${containerColors[0]}, ${containerColors[1]}, ${containerColors[2]}, 0.9)`,
+      //   boxShadow: `
+      //       0.5px .5px 1px 0 hsl(${containerHSL[0]},${color ? '60%' : '0%'},${
+      //     color ? '90%' : '95%'
+      //   },0.3) inset,
+      //       0px -1px 1px 0 hsl(260,0%,0%,0.3) inset,
+      //       0 10px 15px -3px hsl(260,0%,0%,0.3),
+      //       0 4px 6px -2px hsl(260,0%,0%,0.3)
+      //     `,
+      // }}
     >
       {/* <div
         className="absolute inset-0 -z-10 h-full w-full select-none"
