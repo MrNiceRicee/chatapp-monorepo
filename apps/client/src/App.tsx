@@ -37,29 +37,14 @@ export default function App() {
             'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
         }}
       />
-      {/* <div
-        aria-hidden
-        className="absolute -z-10 h-full w-full"
-        style={{
-          '--mask': `linear-gradient(30deg, red, transparent)`,
-          background: `
-            radial-gradient(
-              #000,
-              transparent)
-              0 0/ 2em 2em space
-          `,
-          WebkitMaskImage: 'var(--mask)',
-          mask: 'var(--mask)',
-        }}
-      /> */}
       <section
         className="container mx-auto rounded-md border border-black/50 py-10 bg-blend-screen shadow-white backdrop-blur-sm"
         style={{
           // inset
           boxShadow: `
-            inset 1px 1px 3px -2px hsla(0, 0%, 100%, 0.5),
-            inset -1px -1px 3px -2px hsla(0, 0%, 100%, 0.5),
-            1px 1px 2px -1px hsla(0, 0%, 0%, .8)
+            inset 1px 1px 3px -2px hsla(0, 0%, 100%, 1),
+            inset -1px -1px 3px -2px hsla(0, 0%, 100%, 1),
+            1px 1px 2px -1px hsla(0, 0%, 0%, 1)
           `,
         }}
       >

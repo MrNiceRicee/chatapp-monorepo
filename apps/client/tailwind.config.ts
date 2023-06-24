@@ -6,7 +6,14 @@ const config = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'media',
   theme: {
-    extend: {},
+    boxShadow: {
+      'inner-shade-sm': `
+        inset 1px 1px 3px -2px hsla(0, 0%, 100%, 1),
+        inset -1px -1px 3px -2px hsla(0, 0%, 100%, 1)
+      `
+    },
+    extend: {
+    },
   },
   plugins: [require('tailwindcss-safe-area'),
     plugin(function ({ addComponents }) {
