@@ -10,12 +10,22 @@ const config = {
       'inner-shade-sm': `
         inset 1px 1px 3px -2px hsla(0, 0%, 100%, 1),
         inset -1px -1px 3px -2px hsla(0, 0%, 100%, 1)
-      `
+      `,
     },
     extend: {
+      transitionDuration: {
+        '2000': '2000ms',
+        '3000': '3000ms',
+        '4000': '4000ms',
+        '5000': '5000ms',
+        '6000': '6000ms',
+        '7000': '7000ms',
+      }
     },
   },
-  plugins: [require('tailwindcss-safe-area'),
+  plugins: [
+    require('tailwindcss-safe-area'),
+    require('tailwindcss-animate'),
     plugin(function ({ addComponents }) {
       addComponents({
         '.grain-overlay': {
@@ -33,7 +43,7 @@ const config = {
         },
       });
     }),
-],
+  ],
 } satisfies Config;
 
 export default config;

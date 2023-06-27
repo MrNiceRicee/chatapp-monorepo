@@ -206,7 +206,7 @@ interface CardProps {
   color?: string;
 }
 
-function Card({ children, color, className }: CardProps) {
+function Card({ children, className }: CardProps) {
   // const containerColors = hexToRGB(color ?? '#27272A');
   // const containerHSL = RGBToHSL(containerColors);
 
