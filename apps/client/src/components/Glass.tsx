@@ -10,11 +10,11 @@ export function Glass({ asChild, ...props }: GlassProps) {
 
   return (
     <Comp
-      className="container mx-auto rounded-md border border-black/50 py-10 bg-blend-screen shadow-white backdrop-blur-sm"
+      className="rounded-lg border border-black/50 py-10 bg-blend-screen backdrop-blur-md"
       style={{
         boxShadow: `
-            inset 1px 1px 3px -2px hsla(0, 0%, 100%, 1),
-            inset -1px -1px 3px -2px hsla(0, 0%, 100%, 1),
+            inset 1px 1px 3px -1px hsla(0, 0%, 100%, .8),
+            inset -1px -1px 2px -1px hsla(0, 0%, 100%, .6),
             1px 1px 2px -1px hsla(0, 0%, 0%, 1)
           `,
       }}

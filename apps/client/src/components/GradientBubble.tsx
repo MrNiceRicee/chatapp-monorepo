@@ -6,6 +6,13 @@ const leftMath = (size: number) =>
 const topMath = (size: number) =>
   Math.floor(Math.random() * (size * 1.5)) - size * 1.1;
 
+const timingRange = [
+  'duration-2001',
+  'duration-3001',
+  'duration-5001',
+  'duration-7001',
+];
+
 export function GradientBubble({
   className,
   size = {
@@ -21,15 +28,7 @@ export function GradientBubble({
   };
   movementInterval?: number;
 }) {
-  const timingRange = [
-    // 'duration-1000',
-    'duration-2000',
-    'duration-3000',
-    'duration-5000',
-    'duration-7000',
-  ];
   const [position, setPosition] = useState({
-    // left: Math.floor(Math.random() * (size.width * 1.5)) - size.width * 1.1,
     left: leftMath(size.width),
     top: topMath(size.height),
   });
@@ -48,7 +47,7 @@ export function GradientBubble({
   return (
     <div
       className={classNames(
-        'repeat-infinite opacity-90 direction-alternate-reverse absolute inset-0 -z-10 animate-spin rounded-full from-indigo-500 from-30% to-fuchsia-700 blur-lg transition-all duration-700',
+        'repeat-infinite direction-alternate-reverse absolute inset-0 -z-10 animate-spin rounded-full from-indigo-500 from-30% to-fuchsia-700 opacity-90 blur-lg transition-all duration-700',
         timingRange[Math.floor(Math.random() * timingRange.length)],
         className,
       )}
