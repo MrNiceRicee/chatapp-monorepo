@@ -35,6 +35,7 @@ function GradientBubbleFactory() {
               width: size * 1.005,
             }}
             movementInterval={Math.floor(Math.random() * 30_000) + 8_000}
+            resizeInterval={Math.floor(Math.random() * 25_000) + 10_000}
           />
         );
       })}
