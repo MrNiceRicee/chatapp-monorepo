@@ -2,7 +2,6 @@ import { useEffect, useReducer, useRef } from 'react';
 import { api, isTRPCClientError, type RouterOutput } from '../../api/trpc';
 import { classNames } from '../../util/style';
 import { StatusIndication } from '../StatusIndicator';
-import { Glass } from '../Glass';
 import { NeonBars } from '../NeonBars';
 import { Glow } from '../Glow';
 
@@ -48,7 +47,7 @@ function Message({ messageData }: { messageData: MessageList[number] }) {
           </span>
           <span className="text-gray-400">•</span>
           <span className="relative font-thin text-gray-400">
-            <Glow className="-z-[1] w-full translate-x-0 opacity-10 blur-md bg-stone-900" />
+            <Glow className="-z-[1] w-full translate-x-0 bg-stone-900 opacity-10 blur-md" />
             {formattedDate}
           </span>
         </div>
