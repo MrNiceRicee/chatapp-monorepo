@@ -110,12 +110,12 @@ export function PostMessage() {
           <textarea
             rows={2}
             name="message"
-            className="block w-full resize-none border-0 bg-inherit py-0 placeholder:text-gray-400 focus:outline-none focus:ring-0 sm:text-sm sm:leading-6"
+            className="block w-full resize-none border-0 bg-inherit py-0 placeholder:text-gray-200 focus:outline-none focus:ring-0 sm:text-sm sm:leading-6"
             placeholder="write anything"
             ref={messageRef}
           />
         </fieldset>
-        <div className="flex items-center justify-between border-t border-zinc-500 p-2">
+        <div className="flex items-center justify-between border-t p-2">
           <div className="flex h-full items-center rounded-full border border-teal-500 px-4 py-2 text-sm">
             <p className="space-x-2">
               <span>Users</span>

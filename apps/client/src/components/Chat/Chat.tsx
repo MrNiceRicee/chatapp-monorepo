@@ -33,10 +33,10 @@ function Message({ messageData }: { messageData: MessageList[number] }) {
   }).format(timestamp);
 
   return (
-    <li className="relative flex items-center space-x-2 rounded-md border-2 border-cyan-500 px-2 py-4">
+    <li className="relative min-h-[20px] space-x-2 rounded-md border-2 border-cyan-500 px-2 py-4">
       <NeonBars className="rounded-md border-cyan-100 mix-blend-color-dodge" />
-      <div className="flex flex-col">
-        <div className="flex items-center space-x-2">
+      <div>
+        <div className="space-x-2">
           <span
             className="relative font-bold"
             style={{
@@ -66,9 +66,13 @@ interface WebsocketData {
 
 function ChatList({
   messageData,
+  containerRef,
+  bottomRef,
   scrollToBottom,
 }: {
   messageData: MessageList;
+  containerRef: React.RefObject<HTMLUListElement>;
+  bottomRef: React.RefObject<HTMLDivElement>;
   scrollToBottom: () => void;
 }) {
   const apiContext = api.useContext();
@@ -138,7 +142,7 @@ function ChatList({
 
   return (
     <div>
-      <div className="flex space-x-8 p-4">
+      <div className="flex space-x-8 py-4">
         <StatusIndication
           title={model.connected ? 'Connected' : 'Connecting...'}
           container={{
@@ -164,7 +168,14 @@ function ChatList({
           }}
         />
       </div>
-      <ul className="space-y-3">
+      <ul
+        className="scrollbar-thin scrollbar-thumb-zinc-200/30 scrollbar-track-zinc-50/10 max-h-[60vh] space-y-3 overflow-y-scroll p-2 pb-4"
+        ref={containerRef}
+        style={{
+          WebkitMaskImage:
+            'linear-gradient(to bottom, transparent, black 16px, black calc(100%-16px), transparent)',
+        }}
+      >
         {messageData.map((message, mIndex) => {
           // return <li key={`${message.timestamp}-${mIndex}`}>yo</li>;
           return (
@@ -174,6 +185,7 @@ function ChatList({
             />
           );
         })}
+        <div ref={bottomRef} aria-hidden />
       </ul>
     </div>
   );
@@ -183,14 +195,18 @@ export function Chat() {
   const messages = api.chat.listMessage.useQuery(undefined, {
     retry: false,
   });
+  const containerRef = useRef<HTMLUListElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    if (!bottomRef.current) {
+    if (!bottomRef.current || !containerRef.current) {
       return;
     }
 
-    bottomRef.current.scrollIntoView({ behavior: 'smooth' });
+    containerRef.current.scrollTo({
+      top: bottomRef.current.offsetTop,
+      behavior: 'smooth',
+    });
   };
 
   useEffect(() => {
@@ -218,10 +234,14 @@ export function Chat() {
   }
 
   return (
-    <section className="flex w-full flex-col items-center justify-center pb-0">
-      <ChatList messageData={messages.data} scrollToBottom={scrollToBottom} />
+    <section>
+      <ChatList
+        containerRef={containerRef}
+        messageData={messages.data}
+        scrollToBottom={scrollToBottom}
+        bottomRef={bottomRef}
+      />
       <PostMessage />
-      <div ref={bottomRef} aria-hidden />
     </section>
   );
 }

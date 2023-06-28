@@ -1,4 +1,4 @@
-import { GradientBubble } from "./GradientBubble";
+import { GradientBubble } from './GradientBubble';
 
 const colors = [
   'from-rose-500',
