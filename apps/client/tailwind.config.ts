@@ -1,18 +1,18 @@
-// /** @type {import('tailwindcss').Config} */
 import { type Config } from 'tailwindcss';
 import plugin from 'tailwindcss/plugin';
 
+/** @type {import('tailwindcss').Config} */
 const config = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'media',
   theme: {
-    boxShadow: {
-      'inner-shade-sm': `
-        inset 1px 1px 3px -2px hsla(0, 0%, 100%, 1),
-        inset -1px -1px 3px -2px hsla(0, 0%, 100%, 1)
-      `,
-    },
     extend: {
+      boxShadow: {
+        'inner-shade-sm': `
+          inset 1px 1px 3px -2px hsla(0, 0%, 100%, 1),
+          inset -1px -1px 3px -2px hsla(0, 0%, 100%, 1)
+        `,
+      },
       transitionDuration: {
         '2000': '2000ms',
         '3000': '3000ms',
