@@ -1,9 +1,11 @@
 import { useEffect, useReducer, useRef } from 'react';
+import { useAtomValue } from 'jotai';
 import { api, isTRPCClientError, type RouterOutput } from '../../api/trpc';
 import { classNames } from '../../util/style';
 import { StatusIndication } from '../StatusIndicator';
 import { NeonBars } from '../NeonBars';
 import { Glow } from '../Glow';
+import { chatAtom } from '../../App';
 import { PostMessage } from './PostMessage';
 
 type MessageList = RouterOutput['chat']['listMessage'];
@@ -76,6 +78,7 @@ function ChatList({
   scrollToBottom: () => void;
 }) {
   const apiContext = api.useContext();
+  const { hidden } = useAtomValue(chatAtom);
   const [model, setModel] = useReducer(
     (prev: WebsocketData, next: Partial<WebsocketData>) => ({
       ...prev,
@@ -89,6 +92,7 @@ function ChatList({
   );
 
   api.chat.subscriptionMessages.useSubscription(undefined, {
+    enabled: !hidden,
     onData(data) {
       apiContext.chat.listMessage.setData(undefined, (oldData) => {
         if (!oldData) {
@@ -173,11 +177,10 @@ function ChatList({
         ref={containerRef}
         style={{
           WebkitMaskImage:
-            'linear-gradient(to bottom, transparent, black 16px, black calc(100%-16px), transparent)',
+            'linear-gradient(to bottom, transparent, black 2%, black 98%, transparent)',
         }}
       >
         {messageData.map((message, mIndex) => {
-          // return <li key={`${message.timestamp}-${mIndex}`}>yo</li>;
           return (
             <Message
               key={`${message.timestamp}-${mIndex}`}
@@ -192,8 +195,10 @@ function ChatList({
 }
 
 export function Chat() {
+  const { hidden } = useAtomValue(chatAtom);
   const messages = api.chat.listMessage.useQuery(undefined, {
     retry: false,
+    enabled: !hidden,
   });
   const containerRef = useRef<HTMLUListElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
