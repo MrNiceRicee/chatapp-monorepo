@@ -173,11 +173,10 @@ function ChatList({
         ref={containerRef}
         style={{
           WebkitMaskImage:
-            'linear-gradient(to bottom, transparent, black 16px, black calc(100%-16px), transparent)',
+            'linear-gradient(to bottom, transparent, black 2%, black 98%, transparent)',
         }}
       >
         {messageData.map((message, mIndex) => {
-          // return <li key={`${message.timestamp}-${mIndex}`}>yo</li>;
           return (
             <Message
               key={`${message.timestamp}-${mIndex}`}
