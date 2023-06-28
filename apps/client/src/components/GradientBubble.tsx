@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react';
 import { classNames } from '../util/style';
 
-const leftMath = (size: number) =>
-  Math.floor(Math.random() * (size * 1.5)) - size * 1.1;
-const topMath = (size: number) =>
-  Math.floor(Math.random() * (size * 1.5)) - size * 1.1;
+// const leftMath = (size: number) =>
+//   Math.floor(Math.random() * (size * 1.5)) - size * 1.1;
+// const topMath = (size: number) =>
+//   Math.floor(Math.random() * (size * 1.5)) - size * 1.1;
+
+const randomPosition = (percentage = 125) =>
+  Math.floor(Math.random() * (percentage * 2)) - percentage;
 
 const timingRange = [
-  'duration-2001',
-  'duration-3001',
-  'duration-5001',
-  'duration-7001',
+  'duration-2000',
+  'duration-3000',
+  'duration-5000',
+  'duration-7000',
 ];
 
 export function GradientBubble({
@@ -29,15 +32,19 @@ export function GradientBubble({
   movementInterval?: number;
 }) {
   const [position, setPosition] = useState({
-    left: leftMath(size.width),
-    top: topMath(size.height),
+    // left: leftMath(size.width),
+    // top: topMath(size.height),
+    left: randomPosition(),
+    top: randomPosition(),
   });
 
   useEffect(() => {
     const changePosition = setInterval(() => {
       setPosition({
-        left: leftMath(size.width),
-        top: topMath(size.height),
+        // left: leftMath(size.width),
+        // top: topMath(size.height),
+        left: randomPosition(),
+        top: randomPosition(),
       });
     }, movementInterval);
 
@@ -54,8 +61,8 @@ export function GradientBubble({
       style={{
         height: size.height,
         width: size.width,
-        left: position.left,
-        top: position.top,
+        left: `${position.left}%`,
+        top: `${position.top}%`,
         backgroundImage: 'radial-gradient(circle, var(--tw-gradient-stops))',
       }}
     />
