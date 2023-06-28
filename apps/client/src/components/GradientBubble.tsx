@@ -80,10 +80,11 @@ export function GradientBubble({
   return (
     <div
       className={classNames(
-        'repeat-infinite direction-alternate-reverse absolute inset-0 -z-10 origin-center animate-spin rounded-full from-indigo-500 from-30% to-fuchsia-700 opacity-90 blur-lg transition-all duration-700',
+        'repeat-infinite direction-alternate-reverse fixed inset-0 -z-10 origin-center animate-spin rounded-full from-indigo-500 from-30% to-fuchsia-700 opacity-90 blur-lg transition-all duration-700',
         timingRange[Math.floor(Math.random() * timingRange.length)],
         className,
       )}
+      aria-hidden
       style={{
         // height: size.height,
         // width: size.width,

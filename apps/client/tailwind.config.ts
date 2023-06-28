@@ -20,12 +20,13 @@ const config = {
         '5000': '5000ms',
         '6000': '6000ms',
         '7000': '7000ms',
-      }
+      },
     },
   },
   plugins: [
     require('tailwindcss-safe-area'),
     require('tailwindcss-animate'),
+    require('tailwind-scrollbar'),
     plugin(function ({ addComponents }) {
       addComponents({
         '.grain-overlay': {
