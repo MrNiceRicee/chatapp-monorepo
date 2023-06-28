@@ -18,10 +18,12 @@
   /* If using React, set height on the root div as well */
   #root {
     height: -webkit-fill-available;
+    --muted: 24 6% 83%
   }
 
   .dark {
     --background-contrast: white;
+    --muted: 29 6% 20%;
   }
 }
 
