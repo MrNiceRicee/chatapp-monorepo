@@ -1,114 +1,52 @@
-import { useEffect, useState } from 'react';
 import { Glass } from './components/Glass';
-import { classNames } from './util/style';
+import { GradientBubble } from './components/GradientBubble';
 
-function MovingGradientBubble({
-  className,
-  size = {
-    height: 500,
-    width: 500,
-  },
-}: {
-  className?: string;
-  size?: {
-    height: number;
-    width: number;
-  };
-}) {
-  const timingRange = [
-    // 'duration-75',
-    // 'duration-100',
-    // 'duration-150',
-    // 'duration-200',
-    // 'duration-300',
-    // 'duration-500',
-    // 'duration-700',
-    'duration-1000',
-    // 'duration-1500',
-    'duration-2000',
-    'duration-3000',
-    'duration-5000',
-    'duration-7000',
-  ];
-  const [position, setPosition] = useState({
-    left: Math.floor(Math.random() * (size.width * 1.5)) - size.width * 1.1,
-    top: Math.floor(Math.random() * (size.height * 1.5)) - size.height * 1.1,
-  });
+const colors = [
+  'from-rose-500',
+  'from-amber-500',
+  'from-emerald-500',
+  'from-pink-500',
+  'from-fuchsia-500',
+  'from-indigo-500',
+  'from-violet-500',
+  'from-purple-500',
+  'from-blue-500',
+  'from-sky-500',
+  'from-lime-500 to-sky-500',
+  'from-green-500 to-cyan-500',
+  'from-teal-500',
+  'from-cyan-500',
+  'from-orange-500',
+  'from-yellow-500',
+  'from-[hsl(0,80%,50%)] to-[hsl(300,70%,50%)]',
+];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPosition({
-        left: Math.floor(Math.random() * (size.width * 1.5)) - size.width * 1.1,
-        top:
-          Math.floor(Math.random() * (size.height * 1.5)) - size.height * 1.1,
-      });
-    }, 30000);
-
-    return () => clearInterval(interval);
-  }, [size.height, size.width]);
-
+function GradientBubbleFactory() {
   return (
-    <div
-      className={classNames(
-        'repeat-infinite absolute inset-0 -z-10 animate-spin rounded-full from-indigo-500 from-30% to-fuchsia-700 blur-lg transition-all duration-700',
-        timingRange[Math.floor(Math.random() * timingRange.length)],
-        className,
-      )}
-      style={{
-        height: size.height,
-        width: size.width,
-        left: position.left,
-        top: position.top,
-        backgroundImage: 'radial-gradient(circle, var(--tw-gradient-stops))',
-      }}
-    />
+    <>
+      {colors.map((color, index) => {
+        const size = Math.floor(Math.random() * 1000) + 500;
+
+        return (
+          <GradientBubble
+            key={`${color}-${index}`}
+            className={color}
+            size={{
+              height: size,
+              width: size * 1.005,
+            }}
+            movementInterval={Math.floor(Math.random() * 30_000) + 8_000}
+          />
+        );
+      })}
+    </>
   );
 }
 
 function Background() {
   return (
     <>
-      <MovingGradientBubble
-        className="from-emerald-500"
-        size={{
-          height: 1005,
-          width: 1000,
-        }}
-      />
-      <MovingGradientBubble
-        className="from-rose-500"
-        size={{
-          height: 1000,
-          width: 1005,
-        }}
-      />
-      <MovingGradientBubble
-        size={{
-          height: 1000,
-          width: 995,
-        }}
-      />
-      <MovingGradientBubble
-        className="from-amber-500"
-        size={{
-          height: 800,
-          width: 802,
-        }}
-      />
-      <MovingGradientBubble
-        className="from-cyan-500"
-        size={{
-          height: 850,
-          width: 853,
-        }}
-      />
-      <MovingGradientBubble
-        className="from-pink-500"
-        size={{
-          height: 750,
-          width: 753,
-        }}
-      />
+      <GradientBubbleFactory />
       <div
         aria-hidden
         className="absolute -z-10 h-full w-full"
@@ -119,16 +57,6 @@ function Background() {
             'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
         }}
       />
-      {/* <div
-        aria-hidden
-        className="absolute -z-10 h-full w-full"
-        style={{
-          backgroundImage:
-            'radial-gradient(circle, hsla(274, 66%, 32%, .3), hsla(274, 66%, 32%, .1))',
-          // WebkitMaskImage:
-          // 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
-        }}
-      /> */}
       <div
         aria-hidden
         className="absolute -z-10 h-full w-full"
