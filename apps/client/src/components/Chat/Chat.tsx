@@ -4,6 +4,7 @@ import { classNames } from '../../util/style';
 import { StatusIndication } from '../StatusIndicator';
 import { NeonBars } from '../NeonBars';
 import { Glow } from '../Glow';
+import { PostMessage } from './PostMessage';
 
 type MessageList = RouterOutput['chat']['listMessage'];
 
@@ -182,23 +183,12 @@ export function Chat() {
   const messages = api.chat.listMessage.useQuery(undefined, {
     retry: false,
   });
-  // const containerRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     if (!bottomRef.current) {
       return;
     }
-    // if (initial) {
-    //   containerRef.current.scrollTop =
-    //     bottomRef.current.offsetTop - containerRef.current.offsetTop;
-
-    //   return;
-    // }
-    // containerRef.current.scrollTo({
-    //   top: bottomRef.current.offsetTop - containerRef.current.offsetTop,
-    //   behavior: 'smooth',
-    // });
 
     bottomRef.current.scrollIntoView({ behavior: 'smooth' });
   };
@@ -228,8 +218,9 @@ export function Chat() {
   }
 
   return (
-    <section className="flex w-full flex-col items-center justify-center">
+    <section className="flex w-full flex-col items-center justify-center pb-0">
       <ChatList messageData={messages.data} scrollToBottom={scrollToBottom} />
+      <PostMessage />
       <div ref={bottomRef} aria-hidden />
     </section>
   );

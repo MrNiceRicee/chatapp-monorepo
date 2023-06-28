@@ -10,7 +10,7 @@ const Background = lazy(() =>
 
 export default function App() {
   return (
-    <main className="grain-overlay py-6 before:opacity-50 relative flex items-center justify-center">
+    <main className="grain-overlay py-4 before:opacity-50 relative flex items-center justify-center">
       <Background />
       <Glass className="grain-overlay before:opacity-20 container mx-auto flex max-w-2xl flex-col items-center justify-center px-2 pb-6 pt-2">
         <h1>Silly Chat</h1>
